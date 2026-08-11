@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Matrix Auto Claimer Pro</title>
+    <style>
+        body { background: #121212; color: #fff; font-family: sans-serif; margin: 0; padding: 0; padding-top: 41px; }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; background: #1e1e1e; padding: 10px 15px; border-bottom: 1px solid #333; font-weight: bold; position: fixed; top: 0; left: 0; right: 0; z-index: 10000; }
+        .hide-panel-btn { background: transparent; color: #aaa; border: none; font-size: 12px; cursor: pointer; }
+
+        #controlPanel { position: sticky; top: 41px; z-index: 1000; background: #121212; padding: 8px; border-bottom: 2px solid #444; box-shadow: 0 4px 6px rgba(0,0,0,0.6); }
+
+        .tabs-container { display: flex; overflow-x: auto; gap: 5px; margin-bottom: 10px; padding-bottom: 2px; align-items: center; }
+        .tab-btn { background: #333; color: white; border: 1px solid #555; padding: 9px 8px; border-radius: 5px; font-weight: bold; flex: 1; min-width: 80px; text-align: center; cursor: pointer; text-transform: capitalize; display: flex; justify-content: center; align-items: center; gap: 5px; font-size: 13px; }
+        .tab-btn.active { background: #ff4500; border-color: #ff4500; }
+        .btn-green-outline { background: #1b5e20; color: #4caf50; border: 1px solid #4caf50; }
+        
+        .move-arrow { background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; color: #ffcc00; font-size: 12px; user-select: none; }
+        .move-arrow:active { background: rgba(0,0,0,0.8); transform: scale(1.1); }
+        .delete-tab-btn { background: #d32f2f; color: white; margin-left: 4px; }
+
+        .code-row { display: flex; gap: 5px; margin-bottom: 10px; align-items: stretch; background: #222; padding: 5px; border-radius: 5px;}
+        #masterCode { flex-grow: 1; font-size: 16px; padding: 10px; font-weight: bold; background: transparent; color: #fff; border: none; border-left: 2px solid #ffcc00; outline: none; }
+        .btn-clear { background: #d32f2f; color: white; border: none; width: 40px; font-weight: bold; border-radius: 5px; cursor: pointer; font-size: 18px;}
+
+        .main-controls { display: flex; gap: 5px; margin-bottom: 10px; }
+        .control-btn { background: #333; color: #aaa; border: 1px solid #444; padding: 9px 5px; border-radius: 5px; font-weight: bold; flex: 1; cursor: pointer; font-size: 13px; }
+        #autoBtn { color: #00c853; border-color: #00c853; }
+        .btn-paste { color: #ffeb3b; border-color: #ffeb3b; font-weight: bold; }
+        .btn-fire { background: #d30000; color: white; border: 1px solid #ff0000; flex: 1.5; font-size: 14px; }
+
+        .sub-actions { display: flex; gap: 5px; margin-bottom: 5px; }
+        .sub-btn { border: none; padding: 7px 5px; font-weight: bold; border-radius: 4px; color: white; flex: 1; cursor: pointer; font-size: 11px; }
+        .bg-blue { background: #2962ff; }
+        .bg-cyan { background: #00b8d4; }
+        .bg-purple { background: #6200ea; }
+        .bg-orange { background: #ff6d00; }
+
+        .manage-row { display: flex; gap: 5px; margin-bottom: 10px; }
+        .bg-green-full { background: #00c853; flex: 3; font-weight:bold; }
+        .bg-light-blue { background: #40c4ff; flex: 1; color: black; font-weight:bold;}
+
+        #addIdSection { display: none; flex-direction: column; gap: 5px; margin-bottom: 10px; background: #222; padding: 8px; border-radius: 5px; }
+        .input-box { padding: 8px; border-radius: 4px; border: none; font-weight: bold; width: 95%; background: #333; color: #fff; margin-bottom: 5px; }
+        .add-btn { background: #00c853; color: white; font-weight: bold; border: none; padding: 10px; border-radius: 4px; cursor: pointer; margin-top: 5px; }
+
+        #singleIdModal { display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); z-index:9999999; justify-content:center; align-items:center; }
+        .single-id-card { background:#141421; border:2px solid #ffcc00; border-radius:12px; padding:24px 20px; width:88%; max-width:340px; display:flex; flex-direction:column; gap:12px; box-shadow:0 0 20px rgba(255,204,0,0.3); }
+        .single-id-title { color:#ffcc00; font-weight:bold; font-size:16px; text-align:center; letter-spacing:1px; }
+        .single-id-input { background:#222; border:1px solid #555; color:#fff; padding:12px; border-radius:8px; font-size:14px; font-weight:bold; outline:none; width:100%; box-sizing:border-box; }
+        .single-id-input:focus { border-color:#ffcc00; }
+        .single-id-save { background:#00c853; color:#000; font-weight:bold; border:none; padding:14px; border-radius:8px; cursor:pointer; font-size:15px; width:100%; }
+        .single-id-close { background:#333; color:#aaa; border:1px solid #444; padding:10px; border-radius:8px; cursor:pointer; font-size:13px; width:100%; }
+
+        .add-mode-row { display:flex; gap:6px; margin-bottom:6px; }
+        .add-mode-btn { flex:1; padding:9px; border-radius:6px; border:1px solid #444; background:#222; color:#aaa; font-weight:bold; font-size:12px; cursor:pointer; }
+        .add-mode-btn.active-mode { background:#ffcc00; color:#000; border-color:#ffcc00; }
+
+        .power-grid-title { font-size: 12px; color: #ffcc00; font-weight: bold; margin-top: 10px; border-top: 1px dashed #444; padding-top: 10px; }
+        .power-matrix-box { display: flex; flex-direction: column; gap: 5px; background: #111; padding: 6px; border-radius: 4px; max-height: 120px; overflow-y: auto; }
+        .power-matrix-item { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 6px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .power-switch-btn { border: none; padding: 4px 10px; font-weight: bold; border-radius: 3px; cursor: pointer; font-size: 11px; color: white; }
+        .power-switch-btn.active-on { background: #00c853; box-shadow: 0 0 5px rgba(0,200,83,0.4); }
+        .power-switch-btn.active-off { background: #757575; color: #e0e0e0; }
+
+        .router-title { font-size: 12px; color: #00ff66; font-weight: bold; margin-top: 10px; border-top: 1px dashed #444; padding-top: 10px; }
+        .router-row { display: flex; gap: 5px; margin-bottom: 5px; align-items: center; }
+        .router-select { background: #333; color: #fff; padding: 7px; border-radius: 4px; border: none; font-weight: bold; }
+        .router-list { display: flex; flex-direction: column; gap: 4px; background: #111; padding: 5px; border-radius: 4px; max-height: 100px; overflow-y: auto; font-family: monospace; font-size: 11px; }
+        .router-item { display: flex; justify-content: space-between; background: #222; padding: 4px 8px; border-radius: 3px; align-items: center; }
+        .del-route-btn { color: #ff3333; cursor: pointer; font-weight: bold; font-size: 12px; padding: 0 4px; }
+
+        .grid { display: flex; flex-direction: column; gap: 15px; padding: 10px; padding-bottom: 80px; visibility: hidden; position: absolute; top: -9999px; left: -9999px; width: 100%; box-sizing: border-box; }
+        .grid.active-matrix { visibility: visible; position: relative; top: 0; left: 0; display: flex; }
+        
+        .iframe-container { border: 2px solid #333; border-radius: 5px; background: #111; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        .id-header { display: flex; justify-content: space-between; align-items: center; background: #000; padding: 8px 10px; border-bottom: 1px solid #222;}
+        .id-title { color: #ffeb3b; font-weight: bold; font-size: 15px; }
+        
+        .ui-toggle-btn { background: #4caf50; color: white; border: none; padding: 5px 8px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-right: 3px; font-size: 11px; }
+        .ui-toggle-btn.mode-dark { background: #222; color: #888; border: 1px solid #444; }
+        
+        .ram-toggle-btn { background: #0288d1; color: white; border: none; padding: 5px 8px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-right: 5px; font-size: 11px; }
+        .ram-toggle-btn.ram-stripped { background: #e65100; color: #ffcc80; }
+
+        .kill-account-btn { background: #d32f2f; color: white; border: none; padding: 5px 8px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-right: 5px; font-size: 11px; }
+        .kill-account-btn.dead-state { background: #4caf50; color: white; }
+
+        .refresh-single { background: #1976d2; color: white; border: none; padding: 5px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 11px; }
+        .reload-inplace-btn { background: #e6c300; color: #000; border: none; padding: 5px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 11px; margin-right: 5px; }
+
+        /* Gift Lock Toggle Switch */
+        .gift-lock-row { display: flex; align-items: center; gap: 8px; background: #0d0d0d; border: 1px solid #333; border-radius: 6px; padding: 5px 8px; flex-shrink: 0; }
+        .gift-lock-label { font-size: 11px; font-weight: bold; color: #aaa; white-space: nowrap; }
+        .gift-lock-label.active { color: #00e676; }
+        .toggle-switch { position: relative; display: inline-block; width: 42px; height: 22px; flex-shrink: 0; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #333; border-radius: 22px; transition: 0.25s; }
+        .toggle-slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background: #888; border-radius: 50%; transition: 0.25s; }
+        input:checked + .toggle-slider { background: #00c853; }
+        input:checked + .toggle-slider:before { transform: translateX(20px); background: #fff; }
+
+        .id-creds { padding: 10px; background: #151515; font-size: 13px; color: #aaa; border-bottom: 1px solid #222;}
+        .cred-input { background: transparent; border: none; color: white; font-weight: bold; font-size: 13px; outline: none; width: 55%; filter: blur(4px); transition: filter 0.2s; -webkit-text-security: disc; }
+        .cred-input.revealed { filter: none; -webkit-text-security: none; }
+        .eye-btn { background: none; border: none; color: #ffcc00; font-size: 14px; cursor: pointer; padding: 0 5px; vertical-align: middle; }
+
+        .frame-wrapper { display: flex; flex-grow: 1; height: 420px; position: relative; background: #000; }
+        .drag-handle { width: 30px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; color: #666; font-size: 11px; font-weight: bold; writing-mode: vertical-rl; text-orientation: upright; border-right: 1px solid #222; touch-action: pan-y; z-index: 10; }
+        iframe { flex-grow: 1; border: none; background: #fff; height: 100%; }
+
+        .black-curtain { position: absolute; top: 0; left: 30px; right: 0; bottom: 0; background: #000000; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #444; font-family: monospace; font-size: 12px; pointer-events: all; border-left: 1px solid #222; transition: all 0.15s ease-in-out; }
+        .black-curtain span { color: #00ff66; font-weight: bold; margin-bottom: 5px; font-size: 14px; text-shadow: 0 0 4px rgba(0,255,102,0.3); }
+        .black-curtain p { margin: 0; font-size: 11px; color: #666; }
+
+        .iframe-container.ui-active .black-curtain { opacity: 0; pointer-events: none; visibility: hidden; }
+
+        .drax-watermark-row { text-align: center; color: #ffcc00; font-size: 11px; font-family: monospace; font-weight: bold; margin-top: 5px; margin-bottom: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 4px; text-shadow: 0 0 3px rgba(255,204,0,0.3); }
+
+        #statusBar { position:fixed; bottom:0; left:0; right:0; background:#0d1a0d; border-top:2px solid #00c853; padding:8px 12px; padding-bottom:calc(8px + env(safe-area-inset-bottom)); font-size:12px; font-family:monospace; color:#555; display:flex; justify-content:space-between; align-items:center; z-index:99999; }
+        #statusBar .tg-live { color:#00ff66; font-weight:bold; }
+        #statusBar .tg-offline { color:#ff4444; font-weight:bold; }
+        #statusBar .code-display { color:#ffcc00; font-weight:bold; max-width:50%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+        #captchaAlert { display:none; position:fixed; top:0; left:0; right:0; background:#ff3300; color:#fff; font-weight:bold; font-size:13px; text-align:center; padding:8px; z-index:9998; cursor:pointer; }
+
+        /* 🔮 OVERCLOCKED HARDWARE RESIZABLE DRAGABLE FLOATING WINDOW CONTAINER */
+        .floating-prediction-window {
+            position: fixed; top: 120px; left: 15px; width: 340px; height: 480px; 
+            background: #000000; border: 2px solid #00ff41; border-radius: 16px; 
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.25); z-index: 999995; 
+            display: none; flex-direction: column; overflow: hidden; 
+            min-width: 260px; min-height: 320px;
+            will-change: transform; transition: border-color 0.2s;
+        }
+        .prediction-win-header {
+            background: #0d0d11; padding: 10px 14px; display: flex; 
+            justify-content: space-between; align-items: center; 
+            border-bottom: 1px solid #1a2a1a; cursor: move; user-select: none; touch-action: none;
+        }
+        .prediction-win-body { flex-grow: 1; width: 100%; height: calc(100% - 38px); background: #000; }
+        .prediction-win-body iframe { width: 100%; height: 100%; border: none; background: #000; }
+        
+        /* 🔥 GIANT MOBILE OPTIMIZED TOUCH RESIZE HANDLE HORN */
+        .floating-resize-trigger-matrix {
+            position: absolute; bottom: 0; right: 0; width: 32px; height: 32px;
+            background: linear-gradient(135deg, transparent 50%, #00ff41 50%);
+            border-bottom-right-radius: 14px; cursor: se-resize; z-index: 999999;
+            touch-action: none; box-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+        }
+
+        /* 📡 COMPLETE 100% SPEC MATCHED TELEGRAM MONITOR POPUP CONTAINER */
+        #telegramMonitorModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85); z-index: 99999995; justify-content: center; align-items: center;
+            box-sizing: border-box; padding: 16px;
+        }
+        .tg-monitor-card {
+            background: #0a111a; border: 2px solid #1a426e; border-radius: 16px;
+            padding: 20px; width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 12px;
+            box-shadow: 0 0 30px rgba(26, 66, 110, 0.4); box-sizing: border-box;
+        }
+        .tg-monitor-title-bar {
+            color: #38b6ff; font-weight: bold; font-size: 15px; font-family: sans-serif;
+            text-align: center; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .tg-monitor-status-badge {
+            background: #231205; border: 1px solid #ff9800; color: #ff9800;
+            font-size: 11px; font-weight: bold; padding: 4px 10px; border-radius: 6px;
+            align-self: center; text-transform: uppercase;
+        }
+        .tg-monitor-status-badge.running-state {
+            background: #05240c; border-color: #00c853; color: #00c853;
+        }
+        .tg-monitor-list-area {
+            background: #050a11; border: 1px solid #12253a; border-radius: 10px;
+            min-height: 160px; max-height: 220px; overflow-y: auto; padding: 8px;
+            display: flex; flex-direction: column; gap: 6px; box-sizing: border-box;
+        }
+        .tg-monitor-list-item {
+            background: #0f1c29; border: 1px solid #1c354d; border-radius: 8px;
+            padding: 8px 10px; display: flex; flex-direction: column; gap: 6px;
+        }
+        .tg-monitor-item-controls { display: flex; gap: 6px; }
+        .tg-monitor-mini-btn {
+            flex: 1; padding: 6px; font-size: 11px; font-weight: bold; border-radius: 4px;
+            border: none; cursor: pointer; text-align: center; color: white; display: flex; align-items: center; justify-content: center; gap: 4px;
+        }
+        .tg-monitor-mini-btn.edit { background: #1b5e20; border: 1px solid #4caf50; color: #4caf50; }
+        .tg-monitor-mini-btn.del { background: #b71c1c; border: 1px solid #f44336; color: #f44336; }
+        .tg-monitor-input-row { display: flex; gap: 6px; width: 100%; box-sizing: border-box; }
+        .tg-monitor-text-input {
+            flex: 1; background: #050a11; border: 1px solid #1c354d; color: #fff;
+            padding: 11px; border-radius: 8px; font-size: 13px; font-weight: bold; outline: none; box-sizing: border-box;
+        }
+        .tg-monitor-text-input::placeholder { color: #334e68; }
+        .tg-monitor-action-btn {
+            background: #0070f3; color: white; font-weight: bold; border: none;
+            padding: 12px; border-radius: 8px; cursor: pointer; font-size: 13px; text-transform: uppercase;
+        }
+        .tg-monitor-action-btn.add { background: #0070f3; padding: 0 16px; font-size: 12px; }
+        .tg-monitor-action-btn.close { background: #222; border: 1px solid #333; color: #aaa; flex: 1; }
+        .tg-monitor-action-btn.start { background: #0070f3; flex: 1.4; display: flex; align-items: center; justify-content: center; gap: 4px; }
+        .tg-monitor-action-btn.start.stop-mode { background: #b71c1c; }
+
+        /* MODAL OVERLAYS FOR SETTINGS */
+        .matrix-modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85); z-index: 99999999; justify-content: center; align-items: center;
+            box-sizing: border-box; padding: 16px;
+        }
+        .matrix-modal-card {
+            background: #14141c; border: 2px solid #ff9800; border-radius: 12px;
+            padding: 20px; width: 92%; max-width: 340px; display: flex; flex-direction: column; gap: 12px;
+            box-shadow: 0 0 20px rgba(255, 152, 0, 0.3); box-sizing: border-box;
+        }
+        .matrix-modal-card.blue-theme { border-color: #00b0ff; box-shadow: 0 0 20px rgba(0, 176, 255, 0.3); }
+
+        /* 🚀 OFFLINE BG CLAIMER STYLES */
+        .bg-claimer-modal-style {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 999999; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
+        }
+        .bg-claimer-card-style {
+            background: #14141c; border: 2px solid #ff4500; border-radius: 12px; padding: 20px; width: 95%; max-width: 380px; box-shadow: 0 0 15px rgba(255,69,0,0.4); display: flex; flex-direction: column; gap: 10px; max-height: 92vh; overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sidebarBackdrop" onclick="closeSidebarVault()" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.6); z-index:999990;"></div>
+    <div id="sidebarVault" style="position:fixed; top:0; left:0; transform:translateX(-280px); width:280px; height:100vh; background:#111116; border-right:2px solid #ff4500; z-index:999991; transition:transform 0.22s cubic-bezier(0.4, 0, 0.2, 1); will-change:transform; display:flex; flex-direction:column; padding:15px; box-sizing:border-box;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:15px;">
+            <h3 style="color:#ff4500; margin:0; font-family:sans-serif; font-size:15px; display:flex; align-items:center; gap:4px;">🗄️ MATRIX VAULT</h3>
+            <span style="color:#aaa; cursor:pointer; font-weight:bold; font-size:20px; padding:0 5px;" onclick="closeSidebarVault()">✕</span>
+        </div>
+        <button id="vaultConnectBtn" onclick="triggerForceLogin()" style="width:100%; background:#2962ff; color:white; border:none; padding:12px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:13px; text-transform:uppercase; margin-bottom:8px;">🔗 Connect Telegram Account</button>
+        <button id="vaultDisconnectBtn" onclick="triggerTelegramLogout()" style="display:none; width:100%; background:#d32f2f; color:white; border:none; padding:12px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:13px; text-transform:uppercase; margin-bottom:8px;">❌ Logout Telegram Account</button>
+
+        <div style="display:flex; flex-direction:column; gap:7px; margin-bottom:14px; border-top:1px dashed #333; padding-top:12px;">
+            <label style="font-size:11px; color:#ff9800; font-weight:bold; letter-spacing:0.5px;">⚡ QUICK ACTIONS:</label>
+            <button onclick="closeSidebarVault(); toggleFullScreenBlack();" style="width:100%; background:#000; color:#00ff66; border:2px solid #00ff66; padding:11px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:12px; letter-spacing:0.5px; box-shadow:0 0 6px rgba(0,255,102,0.2);">⬛ FULL SCREEN BLACKOUT</button>
+            <div style="display:flex; gap:7px;">
+                <button onclick="closeSidebarVault(); setGlobalCurtainState(true);" style="flex:1; background:#000; color:#ff3333; border:1px dashed #ff3333; padding:10px 5px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:12px;">⚫ BLACK ALL</button>
+                <button onclick="closeSidebarVault(); setGlobalCurtainState(false);" style="flex:1; background:#1b5e20; color:#00ff66; border:1px dashed #00ff66; padding:10px 5px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:12px;">🟢 SHOW ALL</button>
+            </div>
+            <div style="display:flex; gap:7px;">
+                <button onclick="closeSidebarVault(); setGlobalRamFreeState(true);" style="flex:1; background:#e65100; color:#ffb74d; border:1px solid #ffb74d; padding:10px 5px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:12px;">⚡ RAM-FREE ALL</button>
+                <button onclick="closeSidebarVault(); setGlobalRamFreeState(false);" style="flex:1; background:#01579b; color:#00b0ff; border:1px solid #00b0ff; padding:10px 5px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:12px;">🔓 FULL UI ALL</button>
+            </div>
+            <div style="display:flex; gap:7px;">
+                <button onclick="closeSidebarVault(); pumpCustomUrlToAllTabs();" style="flex:1; background:#00e5ff; color:#000; border:none; padding:10px 5px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:12px;">Pump Link 🚀</button>
+                <button onclick="closeSidebarVault(); window.open('https://web.telegram.org/a/', '_blank');" style="flex:1; background:#40c4ff; color:#000; border:none; padding:10px 5px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:12px;">TG 💬</button>
+            </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;">
+            <label style="font-size:11px; color:#ff9800; font-weight:bold; letter-spacing:0.5px;">⚙️ FIRE SETTINGS:</label>
+            <button id="fireDelayBtn" onclick="closeSidebarVault(); openFireDelayModal();"
+                style="width:100%; background:#1a0e00; color:#ff9800; border:1px solid #ff9800; padding:11px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:13px; text-align:left; letter-spacing:0.3px;">
+                ⏱ FIRE DELAY: OFF
+            </button>
+            <button id="multiTapBtn" onclick="closeSidebarVault(); openMultiTapModal();"
+                style="width:100%; background:#001a2a; color:#00b0ff; border:1px solid #00b0ff; padding:11px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:13px; text-align:left; letter-spacing:0.3px;">
+                🔄 MULTI-TAP: OFF
+            </button>
+        </div>
+
+        <div style="text-align: center; color: #ffcc00; font-size: 11px; font-family: monospace; font-weight: bold; margin-top: 15px; letter-spacing: 2px; text-transform: uppercase; border-top: 1px dashed #222; padding-top: 12px;">⚡ MADE BY @DRAX_HX ⚡</div>
+    </div>
+
+    <div id="telegramMonitorModal">
+        <div class="tg-monitor-card">
+            <div class="tg-monitor-title-bar">
+                <span>⚪ TELEGRAM MONITOR</span>
+            </div>
+            <div id="tgMonitorStatusBadge" class="tg-monitor-status-badge">■ Stopped</div>
+            
+            <div style="color: #38b6ff; font-size: 11px; font-weight: bold; font-family: monospace;" id="tgMonitorCountLabel">📍 CHANNELS (0)</div>
+            
+            <div id="tgMonitorList" class="tg-monitor-list-area"></div>
+            
+            <div class="tg-monitor-input-row">
+                <input type="text" id="tgMonitorNewInput" class="tg-monitor-text-input" placeholder="@username">
+                <button class="tg-monitor-action-btn add" onclick="addTgMonitorChannel()">+ ADD</button>
+            </div>
+            
+            <div style="display:flex; gap:10px; width:100%;">
+                <button class="tg-monitor-action-btn close" id="tgMonitorCloseBtn" onclick="closeTgMonitorWindow()">CLOSE</button>
+                <button id="tgMonitorStartBtn" class="tg-monitor-action-btn start" onclick="toggleTgMonitorRunningState()">▶ START</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="fireDelayModal" class="matrix-modal-overlay">
+        <div class="matrix-modal-card">
+            <div style="color:#ff9800; font-weight:bold; font-size:15px; text-align:center;">⏱️ SET FIRE DELAY INTERVAL</div>
+            <div style="color:#888; font-size:11px; text-align:center;">Delays code queue between consecutive platform requests</div>
+            <input type="number" id="fireDelayInput" class="single-id-input" placeholder="Delay in ms (e.g. 500)" style="text-align:center; font-size:16px; color:#ff9800;">
+            <button class="single-id-save" onclick="saveFireDelay()">SAVE DELAY</button>
+            <button class="single-id-close" onclick="closeFireDelayModal()">CANCEL</button>
+        </div>
+    </div>
+
+    <div id="multiTapModal" class="matrix-modal-overlay">
+        <div class="matrix-modal-card blue-theme">
+            <div style="color:#00b0ff; font-weight:bold; font-size:15px; text-align:center;">🔄 OVERCLOCK MULTI-TAP ENGINE</div>
+            <div id="multiTapStatusLabel" style="font-size:11px; text-align:center; font-weight:bold;">1 = Multi-Tap OFF</div>
+            <div style="color:#888; font-size:11px; margin-top:4px;">Taps count (1 - 20):</div>
+            <input type="number" id="multiTapInput" class="single-id-input" placeholder="Taps count" oninput="updateMultiTapLabel()" style="text-align:center; color:#00b0ff;">
+            <div style="color:#888; font-size:11px; margin-top:4px;">Gap between taps (50ms - 5000ms):</div>
+            <input type="number" id="multiTapGapInput" class="single-id-input" placeholder="Gap in ms" style="text-align:center; color:#00b0ff;">
+            <button class="single-id-save" style="background:#00b0ff;" onclick="saveMultiTap()">APPLY OVERCLOCK</button>
+            <button class="single-id-save" style="background:#d32f2f; color:#fff;" onclick="resetMultiTap()">RESET TO DEFAULT</button>
+            <button class="single-id-close" onclick="closeMultiTapModal()">CLOSE</button>
+        </div>
+    </div>
+
+    <div id="bgClaimerModal" class="bg-claimer-modal-style">
+        <div class="bg-claimer-card-style">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:8px;">
+                <h3 style="color:#ff4500; margin:0; font-family:sans-serif; font-size:16px;">🚀 BG CLAIMER</h3>
+                <span style="color:#aaa; cursor:pointer; font-weight:bold; font-size:20px; padding:0 5px;" onclick="closeBgClaimerModal()">✕</span>
+            </div>
+            <label style="font-size:11px; color:#aaa; font-weight:bold; letter-spacing:0.5px;">SELECT PLATFORM:</label>
+            <select id="bgPlatformSelector" style="width:100%; padding:12px; background:#222; color:white; border:1px solid #444; border-radius:6px; font-weight:bold; outline:none; font-size:14px; box-sizing:border-box;"></select>
+            <label style="font-size:11px; color:#aaa; font-weight:bold; letter-spacing:0.5px;">CHANNEL LINKS (max 3):</label>
+            <input type="text" id="bgChannelInput1" placeholder="@channelname or channelname" style="width:100%; padding:11px; background:#222; color:white; border:1px solid #444; border-radius:6px; font-weight:bold; outline:none; font-size:13px; box-sizing:border-box;">
+            <input type="text" id="bgChannelInput2" placeholder="Channel 2 (optional)" style="width:100%; padding:11px; background:#222; color:white; border:1px solid #444; border-radius:6px; font-weight:bold; outline:none; font-size:13px; box-sizing:border-box;">
+            <input type="text" id="bgChannelInput3" placeholder="Channel 3 (optional)" style="width:100%; padding:11px; background:#222; color:white; border:1px solid #444; border-radius:6px; font-weight:bold; outline:none; font-size:13px; box-sizing:border-box;">
+            <div style="display:flex; gap:10px;">
+                <button onclick="startBgClaimerRouting()" style="flex:1; background:#00c853; color:#000; border:none; padding:13px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:14px;">▶ START</button>
+                <button onclick="stopBgClaimerRouting()" style="flex:1; background:#d32f2f; color:white; border:none; padding:13px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:14px;">🛑 STOP</button>
+            </div>
+            <div id="bgClaimerLog" style="background:#050505; border:1px solid #1a1a1a; border-radius:6px; padding:8px; min-height:60px; max-height:120px; overflow-y:auto; font-size:10px; color:#666; font-family:monospace;">
+                <div style="color:#333; text-align:center; padding-top:16px;">Log appears here after START</div>
+            </div>
+            <button onclick="closeBgClaimerModal()" style="width:100%; background:#222; color:#aaa; border:1px solid #333; padding:10px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:12px; box-sizing:border-box;">CLOSE</button>
+        </div>
+    </div>
+
+    <div id="bgStatusBar" style="display:none !important;">
+        <span id="bgStatusText" style="display:none !important;"></span>
+    </div>
+
+    <div id="singleIdModal">
+        <div class="single-id-card">
+            <div class="single-id-title">➕ ID NEW |</div>
+            <input type="text" id="singleIdName" class="single-id-input" placeholder="Name (Optional)">
+            <input type="text" id="singleIdNumber" class="single-id-input" placeholder="Number" inputmode="numeric">
+            <input type="password" id="singleIdPassword" class="single-id-input" placeholder="Password">
+            <button class="single-id-save" onclick="saveSingleId()">SAVE DATA</button>
+            <div style="height:4px;"></div>
+            <button class="single-id-close" onclick="closeSingleIdModal()">CANCEL</button>
+        </div>
+    </div>
+
+    <div id="fullScreenBlackout" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#000; z-index:999999999; flex-direction:column; justify-content:center; align-items:center;">
+        <div style="position:absolute; top:20px; right:30px; font-size:30px; cursor:pointer; color:red; font-weight:bold;" onclick="toggleFullScreenBlack()">❌</div>
+        <h1 style="color:#00ff66; font-family:monospace; text-shadow: 0 0 10px #00ff66; text-align:center;">⚡ MATRIX CORE ACTIVE ⚡</h1>
+        <p style="color:#888; font-family:monospace; text-align:center;">All systems listening and running in background.</p>
+        <div class="code-display" id="blackoutCodeDisplay" style="color:#ffcc00; font-size:24px; margin-top:20px; font-family:monospace; text-align:center;">Waiting for drops...</div>
+    </div>
+
+    <div id="tgLoginModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.92); z-index:9999999; justify-content:center; align-items:center;">
+        <div style="background:#0d1a0d; border:2px solid #00c853; border-radius:12px; padding:24px 20px; width:90%; max-width:340px; display:flex; flex-direction:column; gap:12px; position:relative;">
+            <span onclick="closeTgLoginModal()" style="position:absolute; top:10px; right:14px; color:#aaa; font-size:20px; cursor:pointer; font-weight:bold;">✕</span>
+            <div style="color:#00ff66; font-weight:bold; font-size:16px; text-align:center; letter-spacing:1px;">📱 Connect Telegram</div>
+            <div id="tgLoginError" style="color:#ff4444; font-size:12px; text-align:center; font-weight:bold; min-height:16px;"></div>
+
+            <!-- PHASE 0: API Vault — enter personal api_id + api_hash -->
+            <div id="tgLoginPhaseVault">
+                <div style="background:#0a1a00; border:1px solid #00ff66; border-radius:8px; padding:10px; margin-bottom:10px; font-size:11px; color:#aaa; line-height:1.5;">
+                    🔑 <b style="color:#00ff66;">Step 1: Apni API Keys daalo</b><br>
+                    my.telegram.org pe jao → API Development Tools → App create karo<br>
+                    <a href="https://my.telegram.org/auth" target="_blank" style="color:#40c4ff;">my.telegram.org</a>
+                </div>
+                <div style="color:#aaa; font-size:11px; margin-bottom:4px; font-weight:bold;">API ID (number):</div>
+                <input id="tgApiIdInput" type="number" inputmode="numeric" placeholder="e.g. 12345678"
+                    style="width:100%; background:#111; border:1px solid #00ff66; color:#fff; padding:11px; border-radius:8px; font-size:15px; outline:none; box-sizing:border-box; margin-bottom:8px; font-weight:bold;">
+                <div style="color:#aaa; font-size:11px; margin-bottom:4px; font-weight:bold;">API HASH (32-char string):</div>
+                <input id="tgApiHashInput" type="text" placeholder="e.g. a1b2c3d4e5f6..."
+                    style="width:100%; background:#111; border:1px solid #00ff66; color:#ffcc00; padding:11px; border-radius:8px; font-size:13px; outline:none; box-sizing:border-box; margin-bottom:10px; font-family:monospace; word-break:break-all;">
+                <button onclick="tgSaveVault()" style="width:100%; background:#00c853; color:#000; border:none; padding:13px; font-weight:bold; border-radius:8px; font-size:14px; cursor:pointer; box-sizing:border-box;">Save &amp; Continue →</button>
+            </div>
+
+            <!-- PHASE 1: Phone number -->
+            <div id="tgLoginPhasePhone" style="display:none;">
+                <div style="color:#aaa; font-size:11px; margin-bottom:8px; font-weight:bold;">TELEGRAM PHONE NUMBER:</div>
+                <input id="tgPhoneInput" type="tel" placeholder="+91 98765 43210"
+                    style="width:100%; background:#111; border:1px solid #333; color:#fff; padding:12px; border-radius:8px; font-size:15px; outline:none; box-sizing:border-box; margin-bottom:10px;">
+                <button onclick="tgSendPhone()" style="width:100%; background:#00c853; color:#000; border:none; padding:13px; font-weight:bold; border-radius:8px; font-size:14px; cursor:pointer;">Send OTP →</button>
+                <button onclick="tgShowVault()" style="width:100%; background:#1a2a1a; color:#00ff66; border:1px solid #00ff66; padding:9px; font-weight:bold; border-radius:8px; font-size:11px; cursor:pointer; margin-top:8px; box-sizing:border-box;">✏️ Change API Keys</button>
+            </div>
+
+            <!-- PHASE 2: OTP code -->
+            <div id="tgLoginPhaseCode" style="display:none;">
+                <div style="color:#aaa; font-size:11px; margin-bottom:8px; font-weight:bold;">ENTER OTP FROM TELEGRAM:</div>
+                <input id="tgCodeInput" type="text" inputmode="numeric" placeholder="12345" maxlength="6"
+                    style="width:100%; background:#111; border:1px solid #333; color:#ffcc00; padding:12px; border-radius:8px; font-size:22px; letter-spacing:8px; text-align:center; outline:none; box-sizing:border-box; margin-bottom:10px;">
+                <button onclick="tgVerifyCode()" style="width:100%; background:#00c853; color:#000; border:none; padding:13px; font-weight:bold; border-radius:8px; font-size:14px; cursor:pointer;">Verify ✓</button>
+            </div>
+
+            <!-- PHASE 3: 2FA -->
+            <div id="tgLoginPhase2FA" style="display:none;">
+                <div style="color:#ffcc00; font-size:11px; margin-bottom:8px; font-weight:bold;">🔐 2FA PASSWORD REQUIRED:</div>
+                <input id="tg2FAInput" type="password" placeholder="Telegram 2FA Password"
+                    style="width:100%; background:#111; border:1px solid #ffcc00; color:#fff; padding:12px; border-radius:8px; font-size:15px; outline:none; box-sizing:border-box; margin-bottom:10px;">
+                <button onclick="tgVerify2FA()" style="width:100%; background:#ffaa00; color:#000; border:none; padding:13px; font-weight:bold; border-radius:8px; font-size:14px; cursor:pointer;">Confirm →</button>
+            </div>
+
+            <button onclick="closeTgLoginModal()" style="width:100%; background:#222; color:#aaa; border:1px solid #333; padding:10px; font-weight:bold; border-radius:8px; font-size:12px; cursor:pointer; box-sizing:border-box;">Cancel</button>
+        </div>
+    </div>
+
+    <div class="top-bar">
+        <span onclick="openSidebarVault()" style="cursor:pointer; display:flex; align-items:center; gap:8px;">☰ &nbsp;&nbsp;Matrix Core Performance Console</span>
+        <button class="hide-panel-btn" onclick="togglePanel()">HIDE PANEL △</button>
+    </div>
+
+    <div id="controlPanel">
+        <div class="drax-watermark-row">⚡ MADE BY @DRAX_HX ⚡</div>
+
+        <div class="tabs-container" id="tabsBox"></div>
+
+        <div class="code-row">
+            <input type="text" id="masterCode" placeholder="Paste Gift Code">
+            <button class="btn-clear" onclick="clearCode()">X</button>
+        </div>
+
+        <div class="main-controls">
+            <button class="control-btn" id="autoBtn" onclick="toggleAuto()" style="color: #00c853; border-color: #00c853;">AUTO: ON</button>
+            <button class="control-btn btn-paste" onclick="pasteCode()">PASTE</button>
+            <button class="control-btn btn-fire" onclick="fireAll()">Fire 🔥</button>
+        </div>
+
+        <div class="sub-actions">
+            <button class="sub-btn bg-blue" onclick="broadcastCmd('LOGIN_ALL')">Login All</button>
+            <button class="sub-btn" onclick="broadcastCmd('CONFIRM_ALL')" style="background:#ff3d00;">Confirm All ⚔️</button>
+            <button class="sub-btn bg-cyan" onclick="refreshAllCurrent()">Refresh All</button>
+            <button class="sub-btn" onclick="reloadAllCurrent()" style="background:#1a1a00;color:#ffcc00;border:1px solid #ffcc00;">Reload All</button>
+            <button class="sub-btn" onclick="fullLoadAllCurrent()" style="background:#00001a;color:#00eaff;border:1px solid #00eaff;">⚡ Full Load All</button>
+        </div>
+        <div class="sub-actions" style="align-items:center;">
+            <button class="sub-btn bg-purple" onclick="goToGiftPage()">Gift Page</button>
+            <button class="sub-btn bg-orange" onclick="goToAccountPage()">Account Page</button>
+            <div class="gift-lock-row">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="giftLockToggle" onchange="toggleGiftLock(this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="gift-lock-label" id="giftLockLabel">🔒 Gift Lock: OFF</span>
+            </div>
+        </div>
+
+        <div class="manage-row">
+            <button class="sub-btn bg-green-full" onclick="toggleAddId()">Manage Game URLs & IDs</button>
+            <button class="sub-btn" onclick="openTelegramMonitorWindow()" style="background:#0c345b; font-weight:bold; border:1px solid #38b6ff; color:#38b6ff;">Telegram Monitor Engine 📡</button>
+            <button class="sub-btn" onclick="openBgClaimerModal()" style="background:#4a148c; font-weight:bold; margin-left:5px;">Original BG Claimer 🚀</button>
+        </div>
+
+        <div id="addIdSection">
+            <label style="font-size: 11px; color: #ffeb3b; font-weight: bold;">1. Main Base URL:</label>
+            <input type="text" id="gameBaseUrlInput" class="input-box" placeholder="https://gameclub.com/#/home">
+            
+            <label style="font-size: 11px; color: #ffeb3b; font-weight: bold;">2. Gift Page Path or Full URL:</label>
+            <input type="text" id="gameGiftUrlInput" class="input-box" placeholder="/#/pages/person/gift_code">
+            
+            <label style="font-size: 11px; color: #ffeb3b; font-weight: bold;">3. Account Page Path or Full URL:</label>
+            <input type="text" id="gameAccountUrlInput" class="input-box" placeholder="/#/pages/person/index">
+
+            <label style="font-size: 11px; color: #00e5ff; font-weight: bold;">3.5. Quick Pump Custom URL:</label>
+            <input type="text" id="quickCustomUrlInput" class="input-box" placeholder="Paste new temporary game/event link here..." style="border: 1px solid #00e5ff;">
+            
+            <label style="font-size: 11px; color: #00ff66; font-weight: bold; margin-top: 5px;">4. Add Account Credentials:</label>
+            <div class="add-mode-row">
+                <button class="add-mode-btn active-mode" id="modeSingleBtn" onclick="setAddMode('single')">➕ ADD ONE ID</button>
+                <button class="add-mode-btn" id="modeBulkBtn" onclick="setAddMode('bulk')">📋 BULK ADD IDs</button>
+            </div>
+
+            <div id="singleIdTriggerArea">
+                <button onclick="openSingleIdModal()" style="width:100%; background:#ffcc00; color:#000; border:none; padding:12px; border-radius:6px; font-weight:bold; font-size:14px; cursor:pointer; margin-bottom:5px;">➕ Add New ID (Popup)</button>
+            </div>
+
+            <div id="bulkIdArea" style="display:none;">
+                <textarea id="bulkCreds" class="input-box" rows="4" placeholder="Format: Phone Password&#10;Leave empty if only updating links" style="background:#111; font-family:monospace; resize:vertical;"></textarea>
+            </div>
+
+            <div class="power-grid-title">🔌 GAME ACTIVATION MATRIX (RAM POWER SAVER)</div>
+            <div class="power-matrix-box" id="powerMatrixControlBox"></div>
+
+            <div class="router-title">⭐ TELEGRAM ROUTING INTELLIGENT GRID</div>
+            <div class="router-row">
+                <input type="text" id="channelRouteInput" style="padding: 7px; background:#333; color:white; border:none; border-radius:4px; font-weight:bold; flex:1;" placeholder="Channel Username">
+                <span style="font-size:11px; font-weight:bold; color:#aaa;">➔ TARGET:</span>
+                <select id="targetGameSelector" class="router-select"></select>
+                <button type="button" onclick="addChannelRoute()" style="background:#00b8d4; color:white; border:none; padding:7px 12px; font-weight:bold; border-radius:4px;">LINK</button>
+            </div>
+            <div class="router-list" id="activeRoutesBox"></div>
+
+            <button class="add-btn" onclick="processManagementPanel()">Save Configurations</button>
+        </div>
+    </div>
+
+    <div id="captchaAlert" onclick="dismissCaptchaAlert()">
+        ⚠️ CAPTCHA NEEDED — <span id="captchaAlertText">Account needs captcha solved</span> &nbsp;[tap to dismiss]
+    </div>
+
+    <div id="all-grids"></div>
+
+    <div id="statusBar">
+        <span>🤖 TG: <span id="tgStatus" class="tg-live">⚡ LIVE</span></span>
+        <span class="code-display" id="lastCodeDisplay">No code yet</span>
+        <span id="queueCount">Seen: 0</span>
+    </div>
+
+    <script>
+        let addMode = localStorage.getItem('matrixAddMode') || 'single';
+        function setAddMode(mode) {
+            addMode = mode;
+            localStorage.setItem('matrixAddMode', mode);
+            document.getElementById('modeSingleBtn').classList.toggle('active-mode', mode === 'single');
+            document.getElementById('modeBulkBtn').classList.toggle('active-mode', mode === 'bulk');
+            document.getElementById('singleIdTriggerArea').style.display = mode === 'single' ? 'block' : 'none';
+            document.getElementById('bulkIdArea').style.display = mode === 'bulk' ? 'block' : 'none';
+        }
+
+        function openSingleIdModal() {
+            document.getElementById('singleIdName').value = '';
+            document.getElementById('singleIdNumber').value = '';
+            document.getElementById('singleIdPassword').value = '';
+            document.getElementById('singleIdModal').style.display = 'flex';
+            setTimeout(() => document.getElementById('singleIdNumber').focus(), 100);
+        }
+
+        function closeSingleIdModal() { document.getElementById('singleIdModal').style.display = 'none'; }
+
+        function saveSingleId() {
+            const phone = document.getElementById('singleIdNumber').value.trim();
+            const pass  = document.getElementById('singleIdPassword').value.trim();
+            if (!phone || !pass) { alert('Number aur Password dono required hain!'); return; }
+            if (!gameData[currentTab]) gameData[currentTab] = [];
+            gameData[currentTab].push({ phone, pass });
+            localStorage.setItem('rajaAccounts_' + currentTab, JSON.stringify(gameData[currentTab]));
+            closeSingleIdModal();
+            initData(); bootAllTabs();
+        }
+
+        function toggleCredVisibility(inputId, eyeId) {
+            const input = document.getElementById(inputId);
+            const eye = document.getElementById(eyeId);
+            if (!input) return;
+            if (input.classList.contains('revealed')) {
+                input.classList.remove('revealed'); if (eye) eye.innerText = '👁';
+            } else {
+                input.classList.add('revealed'); if (eye) eye.innerText = '🙈';
+            }
+        }
+
+        const audioKick = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA");
+        audioKick.loop = true;
+        function activateWakeKick() {
+            audioKick.play().catch(()=>{});
+            setInterval(() => { if(audioKick.paused) audioKick.play().catch(()=>{}); }, 10000);
+            document.removeEventListener('click', activateWakeKick);
+        }
+        document.addEventListener('click', activateWakeKick);
+
+        const DEFAULT_GAMES = [
+            { name: "51game",   base: "https://www.51gameo.com/#/main/RedeemGift",    gift: "https://www.51gameo.com/#/main/RedeemGift",    account: "https://www.51gameo.com/#/main" },
+            { name: "Okwin",    base: "https://okwin05.com/#/main/RedeemGift",          gift: "https://okwin05.com/#/main/RedeemGift",          account: "https://okwin05.com/#/main" },
+            { name: "Jaiclub",  base: "https://www.jaiclub43.com/#/main/RedeemGift",    gift: "https://www.jaiclub43.com/#/main/RedeemGift",    account: "https://www.jaiclub43.com/#/main" },
+            { name: "91game",   base: "https://www.aakclub.com/#/main/RedeemGift",      gift: "https://www.aakclub.com/#/main/RedeemGift",      account: "https://www.aakclub.com/#/main" },
+            { name: "Yaarwin",  base: "https://yaarwin.club/#/main/RedeemGift",         gift: "https://yaarwin.club/#/main/RedeemGift",         account: "https://yaarwin.club/#/main" },
+            { name: "55club",   base: "https://www.55wingob.com/#/main/RedeemGift",     gift: "https://www.55wingob.com/#/main/RedeemGift",     account: "https://www.55wingob.com/#/main" },
+            { name: "In999",    base: "https://www.in999bb.com/#/main/RedeemGift",      gift: "https://www.in999bb.com/#/main/RedeemGift",      account: "https://www.in999bb.com/#/main" },
+            { name: "Okwin2",   base: "https://11okwin.com/#/main/RedeemGift",          gift: "https://11okwin.com/#/main/RedeemGift",          account: "https://11okwin.com/#/main" },
+            { name: "Jalwa",    base: "https://www.jalwaclub5.com/main/RedeemGift",     gift: "https://www.jalwaclub5.com/main/RedeemGift",     account: "https://www.jalwaclub5.com/main" },
+            { name: "Bdg game", base: "https://bdg3.vip/#/main/RedeemGift",            gift: "https://bdg3.vip/#/main/RedeemGift",            account: "https://bdg3.vip/#/main" },
+        ];
+
+        function seedDefaultGames() {
+            if (localStorage.getItem('matrixDefaultsSeeded_v2')) return;
+            const existing = localStorage.getItem('autoClaimerTabs');
+            if (!existing) {
+                localStorage.setItem('autoClaimerTabs', JSON.stringify(DEFAULT_GAMES.map(g => g.name)));
+                DEFAULT_GAMES.forEach(g => {
+                    localStorage.setItem('gameUrl_'    + g.name, g.base);
+                    localStorage.setItem('giftUrl_'    + g.name, g.gift);
+                    localStorage.setItem('accountUrl_' + g.name, g.account);
+                });
+            } else {
+                const existingNames = JSON.parse(existing) || [];
+                DEFAULT_GAMES.forEach(g => {
+                    if (existingNames.includes(g.name)) {
+                        if (!localStorage.getItem('gameUrl_'    + g.name)) localStorage.setItem('gameUrl_'    + g.name, g.base);
+                        if (!localStorage.getItem('giftUrl_'    + g.name)) localStorage.setItem('giftUrl_'    + g.name, g.gift);
+                        if (!localStorage.getItem('accountUrl_' + g.name)) localStorage.setItem('accountUrl_' + g.name, g.account);
+                    }
+                });
+            }
+            localStorage.setItem('matrixDefaultsSeeded_v2', '1');
+        }
+        seedDefaultGames();
+
+        let tabNames = JSON.parse(localStorage.getItem('autoClaimerTabs')) || DEFAULT_GAMES.map(g => g.name);
+        let currentTab = localStorage.getItem('activeAutoClaimerTab') || tabNames[0];
+        if (!tabNames.includes(currentTab)) currentTab = tabNames[0];
+
+        let gameData = {};
+        let channelRoutes = JSON.parse(localStorage.getItem('matrixChannelRoutes')) || {};
+        let tabPowerStates = JSON.parse(localStorage.getItem('matrixTabPowerStates')) || {};
+        let lastFiredCode = ""; let autoEnabled = localStorage.getItem('matrixAutoEnabled') !== 'false';
+
+        // ** PRESERVED USER INTEGER SPECIFICATIONS FOR ZERO LAG RECOVERY
+        let fireDelay    = parseInt(localStorage.getItem('matrixFireDelay'))   || 0;
+        let multiTap     = parseInt(localStorage.getItem('matrixMultiTap'))    || 1;
+        let multiTapGap  = parseInt(localStorage.getItem('matrixFireGap'))     || 100;
+        let codeQueue    = []; let queueRunning = false;
+
+        // 🔒 GIFT LOCK — persistent toggle: when ON, all IDs are forced to gift page every 1s
+        let giftLockEnabled = localStorage.getItem('matrixGiftLock') === 'true';
+        let giftLockInterval = null;
+
+        // 📡 TELEGRAM MONITOR REALTIME SYSTEM CACHE PIPELINE
+        let tgMonitorChannels = JSON.parse(localStorage.getItem('matrix_tg_monitor_chans')) || ["hackkiiiii"];
+        let tgMonitorRunning = localStorage.getItem('matrix_tg_monitor_state') === 'true';
+
+        // 🚀 ORIGINAL BG CLAIMER STATE CONTROLLERS
+        let bgPlatformRoutes = JSON.parse(localStorage.getItem('matrixBgPlatformRoutes')) || {};
+        let bgActiveState = localStorage.getItem('matrixBgActiveState') === 'true';
+
+        function initData() {
+            tabNames.forEach(tab => {
+                if (tabPowerStates[tab] === undefined) tabPowerStates[tab] = true;
+                let saved = localStorage.getItem('rajaAccounts_' + tab);
+                let parsed = JSON.parse(saved) || [];
+                if (!localStorage.getItem('gameUrl_' + tab) && parsed.length > 0) {
+                    let firstUrl = typeof parsed[0] === 'string' ? parsed[0] : (parsed[0].url || '');
+                    if (firstUrl) localStorage.setItem('gameUrl_' + tab, firstUrl);
+                }
+                gameData[tab] = parsed.map(item => ({ phone: item.phone || '', pass: item.pass || '' }));
+                localStorage.setItem('rajaAccounts_' + tab, JSON.stringify(gameData[tab]));
+            });
+            localStorage.setItem('matrixTabPowerStates', JSON.stringify(tabPowerStates));
+        }
+        initData();
+
+        function renderTabs() {
+            const tabsBox = document.getElementById('tabsBox'); tabsBox.innerHTML = '';
+            tabNames.forEach(tab => {
+                const btn = document.createElement('button');
+                btn.className = 'tab-btn' + (tab === currentTab ? ' active' : '');
+                let prefixMarker = tabPowerStates[tab] ? "" : "🛑 ";
+                if (tab === currentTab) {
+                    const leftArrow  = document.createElement('span'); leftArrow.className  = 'move-arrow'; leftArrow.innerText  = '◀'; leftArrow.onclick  = (e) => { e.stopPropagation(); moveTab(tab, -1); };
+                    const rightArrow = document.createElement('span'); rightArrow.className = 'move-arrow'; rightArrow.innerText = '▶'; rightArrow.onclick = (e) => { e.stopPropagation(); moveTab(tab,  1); };
+                    const deleteBtn  = document.createElement('span'); deleteBtn.className  = 'move-arrow delete-tab-btn'; deleteBtn.innerText = '🗑️'; deleteBtn.onclick = (e) => { e.stopPropagation(); promptDelete(tab); };
+                    btn.appendChild(leftArrow); btn.appendChild(document.createTextNode(' ' + prefixMarker + tab + ' ')); btn.appendChild(rightArrow); btn.appendChild(deleteBtn);
+                } else {
+                    btn.innerText = prefixMarker + tab;
+                }
+                btn.onclick = () => switchTab(tab); tabsBox.appendChild(btn);
+            });
+            const addBtn = document.createElement('button'); addBtn.className = 'tab-btn btn-green-outline'; addBtn.innerText = '+ ADD GAME';
+            addBtn.onclick = () => {
+                const newTab = prompt("Enter new Game Name:");
+                if(newTab && !tabNames.includes(newTab)) {
+                    tabNames.push(newTab); tabPowerStates[newTab] = true;
+                    localStorage.setItem('autoClaimerTabs', JSON.stringify(tabNames));
+                    localStorage.setItem('matrixTabPowerStates', JSON.stringify(tabPowerStates));
+                    const preset = DEFAULT_GAMES.find(g => g.name.toLowerCase() === newTab.toLowerCase());
+                    localStorage.setItem('gameUrl_'    + newTab, preset ? preset.base    : '');
+                    localStorage.setItem('giftUrl_'    + newTab, preset ? preset.gift    : '/#/main/RedeemGift');
+                    localStorage.setItem('accountUrl_' + newTab, preset ? preset.account : '/#/main');
+                    initData(); renderTabs(); bootAllTabs(); toggleAddId();
+                }
+            };
+            tabsBox.appendChild(addBtn);
+        }
+
+        function moveTab(tab, direction) {
+            const index = tabNames.indexOf(tab); if (index === -1) return;
+            const newIndex = index + direction; if (newIndex < 0 || newIndex >= tabNames.length) return;
+            const temp = tabNames[index]; tabNames[index] = tabNames[newIndex]; tabNames[newIndex] = temp;
+            localStorage.setItem('autoClaimerTabs', JSON.stringify(tabNames)); renderTabs();
+        }
+
+        function promptDelete(tab) {
+            if(confirm(`WARNING: Permanent delete: ${tab}?`)) {
+                tabNames = tabNames.filter(t => t !== tab); delete tabPowerStates[tab];
+                localStorage.setItem('autoClaimerTabs', JSON.stringify(tabNames));
+                localStorage.setItem('matrixTabPowerStates', JSON.stringify(tabPowerStates));
+                localStorage.removeItem('rajaAccounts_' + tab); localStorage.removeItem('gameUrl_' + tab);
+                localStorage.removeItem('giftUrl_' + tab); localStorage.removeItem('accountUrl_' + tab);
+                if(currentTab === tab) {
+                    currentTab = tabNames[0] || null;
+                    if (currentTab) localStorage.setItem('activeAutoClaimerTab', currentTab);
+                    else localStorage.removeItem('activeAutoClaimerTab');
+                }
+                if(currentTab) { initData(); renderTabs(); bootAllTabs(); } else { location.reload(); }
+            }
+        }
+
+        function togglePanel() {
+            const panel = document.getElementById('controlPanel'); const btn   = document.querySelector('.hide-panel-btn');
+            if(panel.style.display === 'none') { panel.style.display = 'block'; btn.innerText = 'HIDE PANEL △'; localStorage.setItem('matrixPanelHidden', 'false'); }
+            else { panel.style.display = 'none'; btn.innerText = 'SHOW PANEL ▽'; localStorage.setItem('matrixPanelHidden', 'true'); }
+        }
+
+        function toggleAddId() {
+            const sec = document.getElementById('addIdSection');
+            if (sec.style.display === 'flex') {
+                sec.style.display = 'none';
+            } else {
+                sec.style.display = 'flex';
+                document.getElementById('gameBaseUrlInput').value    = localStorage.getItem('gameUrl_'    + currentTab) || '';
+                document.getElementById('gameGiftUrlInput').value    = localStorage.getItem('giftUrl_'    + currentTab) || '';
+                document.getElementById('gameAccountUrlInput').value = localStorage.getItem('accountUrl_' + currentTab) || '';
+                document.getElementById('quickCustomUrlInput').value = localStorage.getItem('quickPumpUrl_' + currentTab) || '';
+                syncRouterDropdownAndBox(); buildPowerMatrixConsolePanel();
+            }
+        }
+
+        // 🚀 ORIGINAL SPEC RESTORED: INDEPENDENT BACKGROUND SCRAPER AND MANAGEMENT SYSTEM
+        function openBgClaimerModal() {
+            const modal = document.getElementById('bgClaimerModal'); const selector = document.getElementById('bgPlatformSelector');
+            selector.innerHTML = '';
+            tabNames.forEach(t => { const opt = document.createElement('option'); opt.value = t; opt.innerText = t.toUpperCase(); selector.appendChild(opt); });
+            selector.onchange = updateBgClaimerInputsFromStorage; modal.style.display = 'flex'; updateBgClaimerInputsFromStorage();
+        }
+        function updateBgClaimerInputsFromStorage() {
+            const platform = document.getElementById('bgPlatformSelector').value;
+            ['bgChannelInput1','bgChannelInput2','bgChannelInput3'].forEach(id => {
+                document.getElementById(id).value = ''; document.getElementById(id).style.background = '#222';
+            });
+            let matched = []; for(let ch in bgPlatformRoutes) { if(bgPlatformRoutes[ch] === platform) matched.push("@"+ch); }
+            ['bgChannelInput1','bgChannelInput2','bgChannelInput3'].forEach((id, i) => {
+                if(matched[i]) { document.getElementById(id).value = matched[i]; document.getElementById(id).style.background = '#1b5e20'; }
+            });
+        }
+        function closeBgClaimerModal() { document.getElementById('bgClaimerModal').style.display = 'none'; }
+        
+        function startBgClaimerRouting() {
+            const platform = document.getElementById('bgPlatformSelector').value;
+            const inputs = ['bgChannelInput1','bgChannelInput2','bgChannelInput3'].map(id => document.getElementById(id).value.trim()).filter(Boolean);
+            if(!inputs.length) { alert('Pehle kam se kam ek channel dalo bhai!'); return; }
+            for(let ch in bgPlatformRoutes){ if(bgPlatformRoutes[ch] === platform) delete bgPlatformRoutes[ch]; }
+            inputs.forEach(val => {
+                let clean = val.toLowerCase().replace('@','').replace(/\s/g,'');
+                if(clean) bgPlatformRoutes[clean] = platform;
+            });
+            localStorage.setItem('matrixBgPlatformRoutes', JSON.stringify(bgPlatformRoutes));
+            bgActiveState = true; localStorage.setItem('matrixBgActiveState', 'true');
+            closeBgClaimerModal(); _bgLog('Started Routing on: ' + platform.toUpperCase());
+        }
+        function stopBgClaimerRouting() {
+            bgActiveState = false; localStorage.setItem('matrixBgActiveState', 'false');
+            const platform = document.getElementById('bgPlatformSelector').value;
+            for(let ch in bgPlatformRoutes){ if(bgPlatformRoutes[ch] === platform) delete bgPlatformRoutes[ch]; }
+            localStorage.setItem('matrixBgPlatformRoutes', JSON.stringify(bgPlatformRoutes));
+            closeBgClaimerModal(); _bgLog('Stopped Routine Platform Stream.');
+        }
+
+        // ════════════════════════════════════════════════════════════════════════════════
+        //  📡 100% SPEC MATCHED TELEGRAM MONITOR ENGINE LOGIC CORE INTERFACE
+        // ════════════════════════════════════════════════════════════════════════════════
+        function openTelegramMonitorWindow() {
+            document.getElementById('telegramMonitorModal').style.display = 'flex';
+            document.getElementById('tgMonitorNewInput').value = '';
+            renderTelegramMonitorChannelListPanel();
+        }
+        function closeTgMonitorWindow() { document.getElementById('telegramMonitorModal').style.display = 'none'; }
+
+        function renderTelegramMonitorChannelListPanel() {
+            const box = document.getElementById('tgMonitorList'); const countLabel = document.getElementById('tgMonitorCountLabel');
+            box.innerHTML = ''; countLabel.innerText = "📍 CHANNELS (" + tgMonitorChannels.length + ")";
+            const badge = document.getElementById('tgMonitorStatusBadge');
+            if (tgMonitorRunning) {
+                badge.innerText = "● Running"; badge.className = "tg-monitor-status-badge running-state";
+                document.getElementById('tgMonitorStartBtn').innerText = "🛑 STOP";
+                document.getElementById('tgMonitorStartBtn').className = "tg-monitor-action-btn start stop-mode";
+            } else {
+                badge.innerText = "■ Stopped"; badge.className = "tg-monitor-status-badge";
+                document.getElementById('tgMonitorStartBtn').innerText = "▶ START";
+                document.getElementById('tgMonitorStartBtn').className = "tg-monitor-action-btn start";
+            }
+            tgMonitorChannels.forEach((ch, idx) => {
+                const row = document.createElement('div'); row.className = "tg-monitor-list-item";
+                row.innerHTML = `<div style="color:#fff; font-weight:bold; font-size:13px; text-align:center; padding:2px 0;">@${ch}</div><div class="tg-monitor-item-controls"><button class="tg-monitor-mini-btn edit" onclick="editTgMonitorChannel(${idx})">✏️ Edit</button><button class="tg-monitor-mini-btn del" onclick="deleteTgMonitorChannel(${idx})">🗑️ Del</button></div>`;
+                box.appendChild(row);
+            });
+        }
+
+        function addTgMonitorChannel() {
+            let val = document.getElementById('tgMonitorNewInput').value.trim().toLowerCase().replace('@','').replace(/\s/g,''); if(!val) return;
+            if(!tgMonitorChannels.includes(val)) { tgMonitorChannels.push(val); localStorage.setItem('matrix_tg_monitor_chans', JSON.stringify(tgMonitorChannels)); }
+            document.getElementById('tgMonitorNewInput').value = ''; renderTelegramMonitorChannelListPanel();
+            if(tgMonitorRunning) syncTelegramMonitorEngineWithServer();
+        }
+
+        function editTgMonitorChannel(idx) {
+            let old = tgMonitorChannels[idx]; let rep = prompt("Edit Channel Username:", "@" + old);
+            if(rep) {
+                let clean = rep.trim().toLowerCase().replace('@','').replace(/\s/g,'');
+                if(clean && clean !== old) { tgMonitorChannels[idx] = clean; localStorage.setItem('matrix_tg_monitor_chans', JSON.stringify(tgMonitorChannels)); renderTelegramMonitorChannelListPanel(); if(tgMonitorRunning) syncTelegramMonitorEngineWithServer(); }
+            }
+        }
+
+        function deleteTgMonitorChannel(idx) { tgMonitorChannels.splice(idx, 1); localStorage.setItem('matrix_tg_monitor_chans', JSON.stringify(tgMonitorChannels)); renderTelegramMonitorChannelListPanel(); if(tgMonitorRunning) syncTelegramMonitorEngineWithServer(); }
+        function toggleTgMonitorRunningState() { tgMonitorRunning = !tgMonitorRunning; localStorage.setItem('matrix_tg_monitor_state', tgMonitorRunning.toString()); renderTelegramMonitorChannelListPanel(); syncTelegramMonitorEngineWithServer(); syncChannelsLoop(); }
+
+        function syncTelegramMonitorEngineWithServer() {
+            if(!tgMonitorRunning) {
+                // 🛑 STOP: remove only TG monitor channels from routes so manual routes survive
+                tgMonitorChannels.forEach(ch => { delete channelRoutes[ch]; });
+                localStorage.setItem('matrixChannelRoutes', JSON.stringify(channelRoutes));
+                syncRouterDropdownAndBox();
+                return;
+            }
+            const activeChans = {}; tgMonitorChannels.forEach(ch => { activeChans[ch] = "GLOBAL_BROADCAST_NETWORK"; });
+            channelRoutes = Object.assign({}, channelRoutes, activeChans); // merge, don't replace
+            localStorage.setItem('matrixChannelRoutes', JSON.stringify(channelRoutes)); syncRouterDropdownAndBox();
+        }
+
+        let _bgFetching = {}; let _bgSeenCodes = new Set();
+        let _scraperRunning = false;
+
+        // 🛡️ MEMORY GUARD — prune _bgSeenCodes so it never grows past 800 entries
+        function _pruneSeenCodes() {
+            if (_bgSeenCodes.size > 800) {
+                const arr = [..._bgSeenCodes];
+                _bgSeenCodes = new Set(arr.slice(arr.length - 400)); // keep newest 400
+            }
+        }
+
+        async function fetchSingleChannelAsync(ch) {
+            if (_bgFetching[ch]) return;
+            _bgFetching[ch] = true;
+            const url = "https://t.me/s/" + ch;
+            try {
+                let html = "";
+                if (window.AndroidBridge && window.AndroidBridge.fetchTelegramPageAsync) {
+                    html = await new Promise((resolve) => {
+                        const cbId = "cb_" + Math.random().toString(36).substr(2, 9);
+                        window[cbId] = function(nativeHtml) { delete window[cbId]; resolve(nativeHtml); };
+                        window.AndroidBridge.fetchTelegramPageAsync(url, cbId);
+                    });
+                } else {
+                    const ctrl = new AbortController();
+                    const tid = setTimeout(() => ctrl.abort(), 1500);
+                    const res = await fetch(url, { signal: ctrl.signal });
+                    clearTimeout(tid);
+                    if (res.ok) html = await res.text();
+                }
+
+                if (html && !html.startsWith("ERROR")) {
+                    const msgRegex = /class="tgme_widget_message_text[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
+                    let match, allTextStr = "";
+                    while ((match = msgRegex.exec(html)) !== null) { allTextStr += " " + match[1].replace(/<[^>]+>/g, ' '); }
+
+                    const cleanTokens = allTextStr.match(/(?<![A-Za-z0-9])[A-Za-z0-9]{12,64}(?![A-Za-z0-9])/g) || [];
+                    const discoveredCodes = cleanTokens.filter(t => !_BG_JUNK.has(t.toLowerCase()) && !/^\d+$/.test(t));
+
+                    for (let code of discoveredCodes) {
+                        if (!_bgSeenCodes.has(code)) {
+                            _bgSeenCodes.add(code);
+                            let resolvedPlatform = bgPlatformRoutes[ch] || "GLOBAL_BROADCAST_NETWORK";
+                            await fetch('/bg/push', {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify({ code, channel: ch, platform: resolvedPlatform })
+                            });
+                        }
+                    }
+                }
+            } catch(e) {}
+            _bgFetching[ch] = false;
+        }
+
+        async function runStandaloneMonitorAsyncScraperLoop() {
+            // ⚡ SSE is live — scraper not needed, check again in 5s
+            if (_sseOpen) { setTimeout(runStandaloneMonitorAsyncScraperLoop, 5000); return; }
+            if (_scraperRunning) { setTimeout(runStandaloneMonitorAsyncScraperLoop, 300); return; }
+            _scraperRunning = true;
+
+            let currentMonitorTargets = tgMonitorRunning ? tgMonitorChannels : [];
+            let currentBgTargets = bgActiveState ? Object.keys(bgPlatformRoutes) : [];
+            let combinedTargets = [...new Set([...currentMonitorTargets, ...currentBgTargets])];
+
+            if (combinedTargets.length) {
+                await Promise.all(combinedTargets.map(ch => fetchSingleChannelAsync(ch)));
+                _pruneSeenCodes();
+            }
+
+            _scraperRunning = false;
+            // SSE down = turbo 50ms, SSE up = 5s safety check
+            setTimeout(runStandaloneMonitorAsyncScraperLoop, _sseOpen ? 5000 : 50);
+        }
+
+        function openSidebarVault() { document.getElementById('sidebarBackdrop').style.display = 'block'; document.getElementById('sidebarVault').style.transform = 'translateX(0px)'; }
+        function closeSidebarVault() { document.getElementById('sidebarBackdrop').style.display = 'none'; document.getElementById('sidebarVault').style.transform = 'translateX(-280px)'; }
+
+        function _tgHideAllPhases() {
+            document.getElementById('tgLoginPhaseVault').style.display = 'none';
+            document.getElementById('tgLoginPhasePhone').style.display = 'none';
+            document.getElementById('tgLoginPhaseCode').style.display  = 'none';
+            document.getElementById('tgLoginPhase2FA').style.display   = 'none';
+            document.getElementById('tgLoginError').innerText = '';
+        }
+        async function triggerForceLogin() {
+            closeSidebarVault();
+            document.getElementById('tgLoginModal').style.display = 'flex';
+            _tgHideAllPhases();
+            // Check if API creds already saved for this device/license
+            try {
+                const r = await fetch('/auth/vault/status'); const d = await r.json();
+                if (d.has_creds) {
+                    // Already saved — skip vault, go straight to phone
+                    document.getElementById('tgLoginPhasePhone').style.display = 'block';
+                    document.getElementById('tgPhoneInput').value = '';
+                } else {
+                    document.getElementById('tgLoginPhaseVault').style.display = 'block';
+                }
+            } catch(e) {
+                document.getElementById('tgLoginPhaseVault').style.display = 'block';
+            }
+        }
+        function tgShowVault() {
+            _tgHideAllPhases();
+            document.getElementById('tgLoginPhaseVault').style.display = 'block';
+        }
+        async function tgSaveVault() {
+            const apiId   = document.getElementById('tgApiIdInput').value.trim();
+            const apiHash = document.getElementById('tgApiHashInput').value.trim();
+            if (!apiId || isNaN(apiId)) { document.getElementById('tgLoginError').innerText = '❌ API ID must be a number'; return; }
+            if (!apiHash || apiHash.length < 10) { document.getElementById('tgLoginError').innerText = '❌ API Hash too short'; return; }
+            document.getElementById('tgLoginError').innerText = 'Saving...';
+            try {
+                const r = await fetch('/auth/vault', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({api_id: parseInt(apiId), api_hash: apiHash}) });
+                const d = await r.json();
+                if (d.ok) {
+                    document.getElementById('tgLoginError').innerText = '✅ API Keys saved! Ab phone dalo.';
+                    setTimeout(() => {
+                        _tgHideAllPhases();
+                        document.getElementById('tgLoginPhasePhone').style.display = 'block';
+                        document.getElementById('tgPhoneInput').value = '';
+                    }, 700);
+                } else { document.getElementById('tgLoginError').innerText = '❌ ' + (d.error || 'Save failed'); }
+            } catch(e) { document.getElementById('tgLoginError').innerText = '❌ Network error'; }
+        }
+        async function triggerTelegramLogout() {
+            if (confirm("Disconnect Telegram session?")) {
+                const r = await fetch('/auth/logout', { method: 'POST' }); const d = await r.json();
+                if (d.ok) { alert("Telegram disconnected!"); document.getElementById('vaultConnectBtn').style.display = 'block'; document.getElementById('vaultDisconnectBtn').style.display = 'none'; }
+            }
+        }
+        async function tgSendPhone() {
+            const ph = document.getElementById('tgPhoneInput').value.trim().replace(/\s/g,''); if (!ph) { document.getElementById('tgLoginError').innerText = 'Phone number dalo'; return; }
+            document.getElementById('tgLoginError').innerText = 'Sending OTP...';
+            try {
+                const r = await fetch('/auth/phone', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({phone: ph}) }); const d = await r.json();
+                if (d.ok) {
+                    document.getElementById('tgLoginError').innerText = ''; document.getElementById('tgLoginPhasePhone').style.display = 'none';
+                    document.getElementById('tgLoginPhaseCode').style.display  = 'block'; document.getElementById('tgCodeInput').value = '';
+                } else { document.getElementById('tgLoginError').innerText = '❌ ' + (d.error || 'Error sending OTP'); }
+            } catch(e) { document.getElementById('tgLoginError').innerText = '❌ Network error'; }
+        }
+        async function tgVerifyCode() {
+            const cd = document.getElementById('tgCodeInput').value.trim(); if (!cd) { document.getElementById('tgLoginError').innerText = 'OTP code dalo'; return; }
+            document.getElementById('tgLoginError').innerText = 'Verifying...';
+            try {
+                const r = await fetch('/auth/code', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({code: cd}) }); const d = await r.json();
+                if (d.ok) {
+                    document.getElementById('tgLoginModal').style.display = 'none'; document.getElementById('vaultConnectBtn').style.display    = 'none';
+                    document.getElementById('vaultDisconnectBtn').style.display = 'block'; alert('✅ Telegram connected! Codes will now arrive live.');
+                } else if (d.need2fa) {
+                    document.getElementById('tgLoginError').innerText = ''; document.getElementById('tgLoginPhaseCode').style.display = 'none';
+                    document.getElementById('tgLoginPhase2FA').style.display  = 'block'; document.getElementById('tg2FAInput').value = '';
+                } else { document.getElementById('tgLoginError').innerText = '❌ ' + (d.error || 'Wrong code'); }
+            } catch(e) { document.getElementById('tgLoginError').innerText = '❌ Network error'; }
+        }
+        async function tgVerify2FA() {
+            const pw = document.getElementById('tg2FAInput').value; if (!pw) { document.getElementById('tgLoginError').innerText = '2FA password dalo'; return; }
+            document.getElementById('tgLoginError').innerText = 'Checking...';
+            try {
+                const r = await fetch('/auth/2fa', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password: pw}) }); const d = await r.json();
+                if (d.ok) {
+                    document.getElementById('tgLoginModal').style.display = 'none'; document.getElementById('vaultConnectBtn').style.display    = 'none';
+                    document.getElementById('vaultDisconnectBtn').style.display = 'block'; alert('✅ Telegram connected with 2FA!');
+                } else { document.getElementById('tgLoginError').innerText = '❌ ' + (d.error || 'Wrong 2FA password'); }
+            } catch(e) { document.getElementById('tgLoginError').innerText = '❌ Network error'; }
+        }
+        function closeTgLoginModal() { document.getElementById('tgLoginModal').style.display = 'none'; }
+
+
+        function makeElementDragableMatrix(elmnt, handle) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            handle.onmousedown = dragStartEngine;
+            handle.addEventListener('touchstart', dragStartEngine, { passive: false });
+
+            function dragStartEngine(e) {
+                if (e.target.closest('button, input, select, textarea')) return;
+                e = e || window.event;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                pos3 = clientX; pos4 = clientY;
+                document.onmouseup = stopDragEngine;
+                document.onmousemove = performDragEngine;
+                document.addEventListener('touchend', stopDragEngine, { passive: true });
+                document.addEventListener('touchmove', performDragEngine, { passive: false });
+            }
+
+            function performDragEngine(e) {
+                e = e || window.event;
+                if (e.cancelable) e.preventDefault();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                pos1 = pos3 - clientX; pos2 = pos4 - clientY;
+                pos3 = clientX; pos4 = clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function stopDragEngine() {
+                document.onmouseup = null; document.onmousemove = null;
+                document.removeEventListener('touchmove', performDragEngine);
+                document.removeEventListener('touchend', stopDragEngine);
+            }
+        }
+
+        function makeElementResizableMatrix(elmnt, handle) {
+            handle.onmousedown = resizeStartEngine;
+            handle.addEventListener('touchstart', resizeStartEngine, { passive: false });
+
+            function resizeStartEngine(e) {
+                e = e || window.event;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                const startWidth = parseInt(document.defaultView.getComputedStyle(elmnt).width, 10);
+                const startHeight = parseInt(document.defaultView.getComputedStyle(elmnt).height, 10);
+                const startX = clientX;
+                const startY = clientY;
+
+                document.onmousemove = performResizeEngine;
+                document.onmouseup = stopResizeEngine;
+                document.addEventListener('touchmove', performResizeEngine, { passive: false });
+                document.addEventListener('touchend', stopResizeEngine, { passive: true });
+
+                function performResizeEngine(ev) {
+                    const currentX = ev.touches ? ev.touches[0].clientX : ev.clientX;
+                    const currentY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+                    
+                    const calculatedWidth = startWidth + (currentX - startX);
+                    const calculatedHeight = startHeight + (currentY - startY);
+                    
+                    if (calculatedWidth > 240) elmnt.style.width = calculatedWidth + "px";
+                    if (calculatedHeight > 300) elmnt.style.height = calculatedHeight + "px";
+                    
+                    if (ev.cancelable) ev.preventDefault();
+                }
+
+                function stopResizeEngine() {
+                    document.onmousemove = null; document.onmouseup = null;
+                    document.removeEventListener('touchmove', performResizeEngine);
+                    document.removeEventListener('touchend', stopResizeEngine);
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {            
+            const cBtn = document.getElementById('tgMonitorCloseBtn');
+            if(cBtn) {
+                cBtn.addEventListener('touchstart', function(e) { e.stopPropagation(); closeTgMonitorWindow(); }, {passive: true});
+            }
+        });
+
+        function buildPowerMatrixConsolePanel() {
+            const container = document.getElementById('powerMatrixControlBox'); container.innerHTML = '';
+            tabNames.forEach(tab => {
+                const row = document.createElement('div'); row.className = 'power-matrix-item';
+                let btnStateClass = tabPowerStates[tab] ? "active-on" : "active-off";
+                let btnText = tabPowerStates[tab] ? "ACTIVE (LOADED)" : "MUTED (0MB RAM)";
+                row.innerHTML = `<span>🎮 ${tab.toUpperCase()}</span><button class="power-switch-btn ${btnStateClass}" onclick="toggleGamePowerLine(this,'${tab}')">${btnText}</button>`;
+                container.appendChild(row);
+            });
+        }
+
+        function toggleGamePowerLine(btn, tabName) {
+            tabPowerStates[tabName] = !tabPowerStates[tabName]; localStorage.setItem('matrixTabPowerStates', JSON.stringify(tabPowerStates));
+            if (tabPowerStates[tabName]) {
+                btn.className = "power-switch-btn active-on"; btn.innerText = "ACTIVE (LOADED)"; renderSpecificTab(tabName);
+            } else {
+                btn.className = "power-switch-btn active-off"; btn.innerText = "MUTED (0MB RAM)";
+                const grid = document.getElementById('grid-' + tabName); if (grid) grid.querySelectorAll('iframe').forEach(frame => { frame.src = 'about:blank'; });
+            }
+            renderTabs();
+        }
+
+        function toggleFullScreenBlack() { const b = document.getElementById('fullScreenBlackout'); const isNowVisible = b.style.display === 'none'; b.style.display = isNowVisible ? 'flex' : 'none'; localStorage.setItem('matrixBlackoutOn', isNowVisible ? '1' : '0'); }
+
+        function syncRouterDropdownAndBox() {
+            const sel = document.getElementById('targetGameSelector'); sel.innerHTML = '';
+            
+            const globalOpt = document.createElement('option');
+            globalOpt.value = "GLOBAL_BROADCAST_NETWORK";
+            globalOpt.innerText = "🚀 ALL GAMES (GLOBAL)";
+            sel.appendChild(globalOpt);
+
+            tabNames.forEach(t => { const opt = document.createElement('option'); opt.value = t; opt.innerText = t.toUpperCase(); sel.appendChild(opt); });
+            const box = document.getElementById('activeRoutesBox'); box.innerHTML = ''; let keys = Object.keys(channelRoutes);
+            if(keys.length === 0) { box.innerHTML = '<span style="color:#555; text-align:center; padding:5px;">No active links mapped yet.</span>'; return; }
+            keys.forEach(ch => {
+                const item = document.createElement('div'); item.className = 'router-item';
+                const dispTarget = (channelRoutes[ch] === "GLOBAL_BROADCAST_NETWORK") ? "GLOBAL BROADCAST 🚀" : channelRoutes[ch].toUpperCase();
+                item.innerHTML = `<span>📢 @${ch} ➔ <b style="color:#00ff66;">${dispTarget}</b></span><span class="del-route-btn" onclick="removeChannelRoute('${ch}')">✕</span>`; box.appendChild(item);
+            });
+        }
+
+        function addChannelRoute() {
+            let ch = document.getElementById('channelRouteInput').value.trim().toLowerCase().replace('@',''); let target = document.getElementById('targetGameSelector').value;
+            if(!ch) return; channelRoutes[ch] = target; localStorage.setItem('matrixChannelRoutes', JSON.stringify(channelRoutes));
+            document.getElementById('channelRouteInput').value = ''; syncRouterDropdownAndBox();
+        }
+
+        function removeChannelRoute(ch) { delete channelRoutes[ch]; localStorage.setItem('matrixChannelRoutes', JSON.stringify(channelRoutes)); syncRouterDropdownAndBox(); }
+
+        function resolvePathUrl(base, path) {
+            if (!path) return base; if (path.startsWith('http')) return path;
+            try { let urlObj = new URL(base); return urlObj.origin + path; } catch(e) { return base + path; }
+        }
+
+        function switchTab(newTab) {
+            const oldGrid = document.getElementById('grid-' + currentTab); if(oldGrid) oldGrid.classList.remove('active-matrix'); currentTab = newTab;
+            localStorage.setItem('activeAutoClaimerTab', currentTab); const newGrid = document.getElementById('grid-' + currentTab); if(newGrid) newGrid.classList.add('active-matrix');
+            renderTabs();
+            document.getElementById('gameBaseUrlInput').value    = localStorage.getItem('gameUrl_'     + currentTab) || '';
+            document.getElementById('gameGiftUrlInput').value    = localStorage.getItem('giftUrl_'     + currentTab) || '';
+            document.getElementById('gameAccountUrlInput').value = localStorage.getItem('accountUrl_'  + currentTab) || '';
+            document.getElementById('quickCustomUrlInput').value = localStorage.getItem('quickPumpUrl_' + currentTab) || '';
+        }
+
+        function toggleIframeUI(btn, containerId) {
+            const container = document.getElementById(containerId); if (!container) return;
+            if (container.classList.contains('ui-active')) {
+                container.classList.remove('ui-active'); btn.innerText = "SHOW APP UI"; btn.classList.remove('mode-dark');
+                localStorage.setItem('matrixUiState_' + containerId, '0');
+            } else {
+                container.classList.add('ui-active'); btn.innerText = "BLACK MODE"; btn.classList.add('mode-dark');
+                localStorage.setItem('matrixUiState_' + containerId, '1');
+            }
+        }
+
+        function toggleRamFreeState(btn, frameId) {
+            const frame = document.getElementById(frameId); if (!frame) return;
+            if (btn.classList.contains('ram-stripped')) {
+                btn.classList.remove('ram-stripped'); btn.innerText = "RAM-FREE UI"; frame.contentWindow.postMessage({ cmd: 'SET_RAM_MODE', state: 'full' }, '*');
+                localStorage.setItem('matrixRamState_' + frameId, '0');
+            } else {
+                btn.classList.add('ram-stripped'); btn.innerText = "FULL UI VIEW"; frame.contentWindow.postMessage({ cmd: 'SET_RAM_MODE', state: 'stripped' }, '*');
+                localStorage.setItem('matrixRamState_' + frameId, '1');
+            }
+        }
+
+        function setGlobalRamFreeState(shouldStripAll) {
+            tabNames.forEach(tab => {
+                const grid = document.getElementById('grid-' + tab); if (!grid) return;
+                grid.querySelectorAll('iframe').forEach(frame => {
+                    if (!frame || !frame.contentWindow || frame.src === 'about:blank') return;
+                    try { frame.contentWindow.postMessage({ cmd: 'SET_RAM_MODE', state: shouldStripAll ? 'stripped' : 'full' }, '*'); } catch(e) {}
+                });
+                grid.querySelectorAll('.ram-toggle-btn').forEach(btn => {
+                    if(shouldStripAll) { btn.classList.add('ram-stripped'); btn.innerText = "FULL UI VIEW"; }
+                    else { btn.classList.remove('ram-stripped'); btn.innerText = "RAM-FREE UI"; }
+                });
+            });
+        }
+
+        function forceInPlaceReload(frameId) { const frame = document.getElementById(frameId); if (!frame) return; try { frame.contentWindow.location.reload(true); } catch (err) { frame.src = frame.src; } }
+        function toggleSingleAccountPower(frameId, originalUrl, btnId) { const frame = document.getElementById(frameId); const btn   = document.getElementById(btnId); if (!frame || !btn) return; if (frame.src === 'about:blank') { frame.src = originalUrl; btn.classList.remove('dead-state'); btn.innerText = "KILL (0MB)"; localStorage.setItem('matrixKillState_' + frameId, '0'); } else { frame.src = 'about:blank'; btn.classList.add('dead-state'); btn.innerText = "WAKE UP"; localStorage.setItem('matrixKillState_' + frameId, '1'); } }
+
+        function setGlobalCurtainState(shouldBeBlackAll) {
+            const currentGrid = document.getElementById('grid-' + currentTab); if (!currentGrid) return;
+            currentGrid.querySelectorAll('.iframe-container').forEach(container => {
+                const btn = container.querySelector('.ui-toggle-btn');
+                if(shouldBeBlackAll) {
+                    container.classList.remove('ui-active'); if(btn) { btn.innerText = "SHOW APP UI"; btn.classList.remove('mode-dark'); }
+                } else {
+                    container.classList.add('ui-active'); if(btn) { btn.innerText = "BLACK MODE"; btn.classList.add('mode-dark'); }
+                }
+            });
+        }
+
+        function addAccounts() {
+            const bulkCredsInput = document.getElementById('bulkCreds').value.trim(); if (!bulkCredsInput) return; const lines = bulkCredsInput.split('\n'); if (!gameData[currentTab]) gameData[currentTab] = [];
+            lines.forEach(line => { let cleanLine = line.trim(); if (!cleanLine) return; let parts = cleanLine.split(/[\s,:]+/); if (parts.length >= 2) gameData[currentTab].push({ phone: parts[0].trim(), pass: parts[1].trim() }); });
+            localStorage.setItem('rajaAccounts_' + currentTab, JSON.stringify(gameData[currentTab])); document.getElementById('bulkCreds').value = ''; initData(); bootAllTabs();
+        }
+
+        function processManagementPanel() {
+            const baseUrl = document.getElementById('gameBaseUrlInput').value.trim(); const giftUrl = document.getElementById('gameGiftUrlInput').value.trim();
+            const accountUrl = document.getElementById('gameAccountUrlInput').value.trim(); const quickUrl = document.getElementById('quickCustomUrlInput').value.trim();
+            if (baseUrl)    localStorage.setItem('gameUrl_'      + currentTab, baseUrl); if (giftUrl)    localStorage.setItem('giftUrl_'      + currentTab, giftUrl);
+            if (accountUrl) localStorage.setItem('accountUrl_'   + currentTab, accountUrl); if (quickUrl)   localStorage.setItem('quickPumpUrl_' + currentTab, quickUrl);
+            if (addMode === 'bulk') addAccounts(); initData(); bootAllTabs(); toggleAddId();
+        }
+
+        function bootAllTabs() { const wrapper = document.getElementById('all-grids'); wrapper.innerHTML = ''; tabNames.forEach(tab => { const grid = document.createElement('div'); grid.className = 'grid' + (tab === currentTab ? ' active-matrix' : ''); grid.id = 'grid-' + tab; wrapper.appendChild(grid); renderSpecificTab(tab); }); }
+        function saveCred(tab, index, field, value) { gameData[tab][index][field] = value; localStorage.setItem('rajaAccounts_' + tab, JSON.stringify(gameData[tab])); }
+        function removeAccount(tabName, index) { if (confirm("Permanently delete this ID?")) { gameData[tabName].splice(index, 1); localStorage.setItem('rajaAccounts_' + tabName, JSON.stringify(gameData[tabName])); bootAllTabs(); } }
+
+        function renderSpecificTab(tabName) {
+            const grid = document.getElementById('grid-' + tabName); if (!grid) return; grid.innerHTML = ''; const safeTabId = tabName.replace(/\s/g, ''); const baseUrl   = localStorage.getItem('gameUrl_' + tabName) || ''; if (!gameData[tabName]) return;
+            gameData[tabName].forEach((item, index) => {
+                const container   = document.createElement('div'); container.className = 'iframe-container'; const containerId = 'container-' + safeTabId + '-' + index; container.id = containerId;
+                const frameId     = 'iframe-'     + safeTabId + '-' + index; const killBtnId   = 'killbtn-'    + safeTabId + '-' + index;
+                const phoneInputId = 'phone-'     + safeTabId + '-' + index; const passInputId  = 'pass-'      + safeTabId + '-' + index;
+                const eyePhoneId   = 'eye-phone-' + safeTabId + '-' + index; const eyePassId    = 'eye-pass-'  + safeTabId + '-' + index;
+                const isolatedUrl = (baseUrl && tabPowerStates[tabName]) ? (baseUrl.includes('?') ? `${baseUrl}&matrixId=${safeTabId}&subId=${index}` : `${baseUrl}#matrixId=${safeTabId}&subId=${index}`) : 'about:blank';
+
+                // 🔮 RESTORE PERSISTENT KILL STATE
+                const _killSaved = localStorage.getItem('matrixKillState_' + frameId);
+                const _isKilled  = (_killSaved === '1');
+                const _srcToLoad = (_isKilled || !tabPowerStates[tabName]) ? 'about:blank' : isolatedUrl;
+                const _killLabel = _isKilled ? 'WAKE UP' : 'KILL (0MB)';
+                const _killClass = _isKilled ? 'kill-account-btn dead-state' : 'kill-account-btn';
+
+                // 🔮 RESTORE PERSISTENT UI TOGGLE STATE
+                const _uiSaved   = localStorage.getItem('matrixUiState_' + containerId);
+                const _uiActive  = (_uiSaved === '1');
+                const _uiBtnText = _uiActive ? 'BLACK MODE' : 'SHOW APP UI';
+                const _uiBtnCls  = _uiActive ? 'ui-toggle-btn mode-dark' : 'ui-toggle-btn';
+                if (_uiActive) container.classList.add('ui-active');
+
+                // 🔮 RESTORE PERSISTENT RAM STATE
+                const _ramSaved    = localStorage.getItem('matrixRamState_' + frameId);
+                const _ramStripped = (_ramSaved === '1');
+                const _ramBtnText  = _ramStripped ? 'FULL UI VIEW' : 'RAM-FREE UI';
+                const _ramBtnCls   = _ramStripped ? 'ram-toggle-btn ram-stripped' : 'ram-toggle-btn';
+
+                container.innerHTML = `
+                    <div class="id-header">
+                        <div class="id-title">${tabName.toUpperCase()} - ID ${index + 1}</div>
+                        <div>
+                            <button class="${_killClass}" id="${killBtnId}" onclick="toggleSingleAccountPower('${frameId}','${isolatedUrl}','${killBtnId}')">${_killLabel}</button>
+                            <button class="${_uiBtnCls}" onclick="toggleIframeUI(this,'${containerId}')">${_uiBtnText}</button>
+                            <button class="${_ramBtnCls}" onclick="toggleRamFreeState(this,'${frameId}')">${_ramBtnText}</button>
+                            <button class="refresh-single" onclick="removeAccount('${tabName}',${index})" style="background:red; margin-right:5px;">Delete</button>
+                            <button class="reload-inplace-btn" onclick="forceInPlaceReload('${frameId}')">Reload</button>
+                            <button class="refresh-single" onclick="document.getElementById('${frameId}').src='${isolatedUrl}'">Refres</button>
+                            <button class="reload-inplace-btn" onclick="hardReloadFrame('${frameId}','${isolatedUrl}')" style="background:#00eaff;color:#000;border:none;">⚡ Full Load</button>
+                        </div>
+                    </div>
+                    <div class="id-creds">
+                        <span style="color:#888;">Number :</span>
+                        <input type="text" id="${phoneInputId}" class="cred-input" value="${item.phone}" onchange="saveCred('${tabName}',${index},'phone',this.value)">
+                        <button class="eye-btn" id="${eyePhoneId}" onclick="toggleCredVisibility('${phoneInputId}','eye-phone-${safeTabId}-${index}')">👁</button>
+                        <br>
+                        <span style="color:#888;">Password :</span>
+                        <input type="text" id="${passInputId}" class="cred-input" value="${item.pass}" onchange="saveCred('${tabName}',${index},'pass',this.value)">
+                        <button class="eye-btn" id="${eyePassId}" onclick="toggleCredVisibility('${passInputId}','eye-pass-${safeTabId}-${index}')">👁</button>
+                    </div>
+                    <div class="frame-wrapper">
+                        <div class="drag-handle">SCROLL</div>
+                        <div class="black-curtain"><span>⚫ BLACK PERFORMANCE ACTIVE</span><p>Listening & Claiming at 20ms in background...</p></div>
+                        <iframe id="${frameId}" src="${_srcToLoad}"></iframe>
+                    </div>`;
+                grid.appendChild(container);
+                // 🔮 RESTORE RAM MODE POST-LOAD (must fire after iframe exists)
+                if (_ramStripped) { setTimeout(() => { try { document.getElementById(frameId).contentWindow.postMessage({ cmd: 'SET_RAM_MODE', state: 'stripped' }, '*'); } catch(e){} }, 2000); }
+            });
+        }
+
+        function refreshAllCurrent() {
+            const baseUrl = localStorage.getItem('gameUrl_' + currentTab) || '';
+            if (!baseUrl) return; // 🛑 no URL configured, nothing to refresh
+            const grid = document.getElementById('grid-' + currentTab);
+            if (!grid) return;
+            grid.querySelectorAll('iframe').forEach((frame, index) => {
+                if (!frame || frame.src === 'about:blank') return; // skip killed frames
+                const safeTabId = currentTab.replace(/\s/g, '');
+                const newSrc = baseUrl.includes('?') ? `${baseUrl}&matrixId=${safeTabId}&subId=${index}` : `${baseUrl}#matrixId=${safeTabId}&subId=${index}`;
+                frame.src = newSrc;
+            });
+        }
+        function reloadAllCurrent() {
+            const grid = document.getElementById('grid-' + currentTab);
+            if (!grid) return;
+            grid.querySelectorAll('iframe').forEach((frame) => {
+                if (!frame || frame.src === 'about:blank') return; // skip killed frames
+                try { frame.contentWindow.location.reload(true); } catch(e) { try { frame.src = frame.src; } catch(e2) {} }
+            });
+        }
+        function goToGiftPage() { const baseUrl = localStorage.getItem('gameUrl_' + currentTab) || ''; const path    = localStorage.getItem('giftUrl_' + currentTab) || ''; const fullTarget = resolvePathUrl(baseUrl, path); document.getElementById('grid-' + currentTab).querySelectorAll('iframe').forEach((frame, index) => { const safeTabId = currentTab.replace(/\s/g, ''); frame.src = fullTarget.includes('?') ? `${fullTarget}&matrixId=${safeTabId}&subId=${index}` : `${fullTarget}#matrixId=${safeTabId}&subId=${index}`; }); }
+        function goToAccountPage() { const baseUrl = localStorage.getItem('gameUrl_' + currentTab) || ''; const path    = localStorage.getItem('accountUrl_' + currentTab) || ''; const fullTarget = resolvePathUrl(baseUrl, path); document.getElementById('grid-' + currentTab).querySelectorAll('iframe').forEach((frame, index) => { const safeTabId = currentTab.replace(/\s/g, ''); frame.src = fullTarget.includes('?') ? `${fullTarget}&matrixId=${safeTabId}&subId=${index}` : `${fullTarget}#matrixId=${safeTabId}&subId=${index}`; }); }
+
+        // ⚡ INSTANT BLAST — fires ALL iframes across ALL tabs at same millisecond
+        function fireTargetTab(targetTabName, code) {
+            if (!targetTabName || !code || !tabPowerStates[targetTabName]) return;
+            const baseUrl  = localStorage.getItem('gameUrl_'  + targetTabName) || '';
+            const giftPath = localStorage.getItem('giftUrl_' + targetTabName) || '';
+            const fullGiftUrl = resolvePathUrl(baseUrl, giftPath);
+            const safeTabId   = targetTabName.replace(/\s/g, '');
+            const targetGrid  = document.getElementById('grid-' + targetTabName);
+            if (!targetGrid) return;
+            const frames = targetGrid.querySelectorAll('iframe');
+            // Fire ALL iframes simultaneously — no loop delay, no sleep, no sequential
+            frames.forEach((frame, index) => {
+                if (!frame || !frame.contentWindow || frame.src === 'about:blank') return;
+                try {
+                    const dynamicFrameGiftUrl = fullGiftUrl
+                        ? (fullGiftUrl.includes('?') ? `${fullGiftUrl}&matrixId=${safeTabId}&subId=${index}` : `${fullGiftUrl}#matrixId=${safeTabId}&subId=${index}`)
+                        : null;
+                    const msg = { cmd: 'FIRE', code };
+                    if (dynamicFrameGiftUrl) msg.giftUrl = dynamicFrameGiftUrl;
+                    frame.contentWindow.postMessage(msg, '*');
+                } catch(e) {}
+            });
+        }
+
+        function fireAll() { const code = document.getElementById('masterCode').value.trim(); if(!code) return; enqueueCode(code, currentTab); }
+        function broadcastCmd(cmdType) {
+            const grid = document.getElementById('grid-' + currentTab); if (!grid) return;
+            const frames = Array.from(grid.querySelectorAll('iframe'));
+            const LOGIN_GAP_MS = 100; // 100ms between each ID login
+
+            if (cmdType === 'LOGIN_ALL') {
+                let loginIndex = 0;
+                frames.forEach((frame, index) => {
+                    if (!frame || !frame.contentWindow || frame.src === 'about:blank') return;
+                    const delay = loginIndex * LOGIN_GAP_MS;
+                    const capturedIndex = index;
+                    setTimeout(() => {
+                        try {
+                            const creds = gameData[currentTab] && gameData[currentTab][capturedIndex];
+                            if (!creds) return;
+                            const payload = { cmd: 'LOGIN', phone: creds.phone, pass: creds.pass };
+                            frame.contentWindow.postMessage(payload, '*');
+                        } catch(e) {}
+                    }, delay);
+                    loginIndex++;
+                });
+            } else {
+                frames.forEach((frame, index) => {
+                    if (!frame || !frame.contentWindow || frame.src === 'about:blank') return;
+                    try {
+                        const creds = gameData[currentTab] && gameData[currentTab][index];
+                        const payload = creds ? {cmd: cmdType, phone: creds.phone, pass: creds.pass} : {cmd: cmdType};
+                        frame.contentWindow.postMessage(payload, '*');
+                    } catch(e) {}
+                });
+            }
+        }
+
+        // Hard reload a single frame — blanks it first then loads fresh (like new site opening)
+        function hardReloadFrame(frameId, isolatedUrl) {
+            const frame = document.getElementById(frameId);
+            if (!frame) return;
+            frame.src = 'about:blank';
+            setTimeout(() => { frame.src = isolatedUrl; }, 350);
+        }
+
+        // Full Load All — hard reload every ID in current tab with a stagger
+        function fullLoadAllCurrent() {
+            const baseUrl = localStorage.getItem('gameUrl_' + currentTab) || '';
+            if (!baseUrl) return;
+            const grid = document.getElementById('grid-' + currentTab);
+            if (!grid) return;
+            const frames = Array.from(grid.querySelectorAll('iframe'));
+            frames.forEach((frame, index) => {
+                if (!frame || !frame.id) return;
+                const safeTabId = currentTab.replace(/\s/g, '');
+                const newSrc = baseUrl.includes('?')
+                    ? `${baseUrl}&matrixId=${safeTabId}&subId=${index}`
+                    : `${baseUrl}#matrixId=${safeTabId}&subId=${index}`;
+                setTimeout(() => {
+                    frame.src = 'about:blank';
+                    setTimeout(() => { frame.src = newSrc; }, 350);
+                }, index * 600); // 600ms stagger between each ID
+            });
+        }
+
+        // 🔒 GIFT LOCK SYSTEM
+        function toggleGiftLock(checked) {
+            giftLockEnabled = checked;
+            localStorage.setItem('matrixGiftLock', checked ? 'true' : 'false');
+            updateGiftLockUI();
+            if (checked) startGiftLock();
+            else stopGiftLock();
+        }
+
+        function startGiftLock() {
+            stopGiftLock(); // clear any existing interval first
+            giftLockInterval = setInterval(() => {
+                if (!giftLockEnabled) return;
+                const baseUrl  = localStorage.getItem('gameUrl_' + currentTab) || '';
+                const giftPath = localStorage.getItem('giftUrl_' + currentTab) || '';
+                if (!baseUrl || !giftPath) return;
+                const fullTarget = resolvePathUrl(baseUrl, giftPath);
+                const grid = document.getElementById('grid-' + currentTab);
+                if (!grid) return;
+                grid.querySelectorAll('iframe').forEach((frame, index) => {
+                    if (!frame || frame.src === 'about:blank') return;
+                    const safeTabId = currentTab.replace(/\s/g, '');
+                    const giftSrc = fullTarget.includes('?')
+                        ? `${fullTarget}&matrixId=${safeTabId}&subId=${index}`
+                        : `${fullTarget}#matrixId=${safeTabId}&subId=${index}`;
+                    // Only redirect if NOT already on gift page
+                    try {
+                        const curHref = frame.contentWindow.location.href;
+                        if (curHref && curHref !== 'about:blank' && !curHref.includes(giftPath)) {
+                            frame.src = giftSrc;
+                        }
+                    } catch(e) {
+                        // cross-origin: force navigate always
+                        frame.src = giftSrc;
+                    }
+                });
+            }, 1000);
+        }
+
+        function stopGiftLock() {
+            if (giftLockInterval) { clearInterval(giftLockInterval); giftLockInterval = null; }
+        }
+
+        function updateGiftLockUI() {
+            const toggle = document.getElementById('giftLockToggle');
+            const label  = document.getElementById('giftLockLabel');
+            if (!toggle || !label) return;
+            toggle.checked = giftLockEnabled;
+            if (giftLockEnabled) {
+                label.textContent = '🔒 Gift Lock: ON';
+                label.classList.add('active');
+            } else {
+                label.textContent = '🔒 Gift Lock: OFF';
+                label.classList.remove('active');
+            }
+        }
+
+        // Boot gift lock on page load if it was ON before
+        window.addEventListener('DOMContentLoaded', () => {
+            updateGiftLockUI();
+            if (giftLockEnabled) startGiftLock();
+        });
+
+        async function pasteCode() {
+            try { const rawText = await navigator.clipboard.readText(); if (!rawText) return; const codeMatch = rawText.match(/[A-Za-z0-9]{15,45}/); document.getElementById('masterCode').value = codeMatch ? codeMatch[0] : rawText.trim(); } catch (err) {
+                let fallbackPrompt = prompt("Clipboard locked. Paste manually below:"); if (fallbackPrompt) { const fallbackMatch = fallbackPrompt.match(/[A-Za-z0-9]{15,45}/); document.getElementById('masterCode').value = fallbackMatch ? fallbackMatch[0] : fallbackPrompt.trim(); }
+            }
+        }
+        function clearCode() { document.getElementById('masterCode').value = ''; }
+        function toggleAuto() { autoEnabled = !autoEnabled; localStorage.setItem('matrixAutoEnabled', autoEnabled.toString()); const btn = document.getElementById('autoBtn'); if(autoEnabled) { btn.innerText = 'AUTO: ON'; btn.style.color = '#00c853'; btn.style.borderColor = '#00c853'; } else { btn.innerText = 'AUTO: OFF'; btn.style.color = '#aaa'; btn.style.borderColor = '#444'; } }
+
+        function fireCodeFromData(data) {
+            if (!data.code) return;
+            if (!autoEnabled) return;
+
+            lastFiredCode = data.code;
+            if (document.getElementById('lastCodeDisplay')) document.getElementById('lastCodeDisplay').innerText = '🎯 ' + data.code;
+            if (document.getElementById('blackoutCodeDisplay')) document.getElementById('blackoutCodeDisplay').innerText = '🎯 ' + data.code;
+
+            // History disabled — saves RAM on mobile
+
+            let target = channelRoutes[data.channel];
+            if (!target && data.channel && data.channel.includes('fallback_engine')) { const part = data.channel.split('_')[0]; target = tabNames.find(t => t.toLowerCase() === part); }
+            target = target || currentTab;
+
+            // ⚡ DIRECT FIRE — skip queue entirely, blast all IDs at same millisecond
+            if (target === "GLOBAL_BROADCAST_NETWORK") {
+                tabNames.forEach(game => fireTargetTab(game, data.code));
+            } else {
+                fireTargetTab(target, data.code);
+            }
+        }
+
+        function enqueueCode(code, targetTab) { 
+            // ⚡ Cap queue at 3 — if 3+ codes pending, drop oldest to prevent memory spiral
+            if (codeQueue.length >= 3) {
+                codeQueue.shift(); // drop oldest pending code
+            }
+            codeQueue.push({ code, targetTab }); 
+            if (!queueRunning) processQueue(); 
+        }
+        
+        async function processQueue() { 
+            if (queueRunning) return; 
+            queueRunning = true;
+            const queueStartTime = Date.now();
+            try {
+                while (codeQueue.length > 0) {
+                    if (Date.now() - queueStartTime > 5000) { codeQueue = []; break; }
+                    const { code, targetTab } = codeQueue.shift();
+                    try {
+                        if (targetTab === "GLOBAL_BROADCAST_NETWORK") {
+                            // ⚡ ALL tabs, ALL iframes, ALL taps — same millisecond
+                            tabNames.forEach(game => {
+                                for (let tap = 0; tap < multiTap; tap++) fireTargetTab(game, code);
+                            });
+                        } else {
+                            // ⚡ ALL iframes in target tab — same millisecond, no sleep between taps
+                            for (let tap = 0; tap < multiTap; tap++) fireTargetTab(targetTab, code);
+                        }
+                        if (codeQueue.length > 0 && fireDelay > 0) await sleep(fireDelay);
+                    } catch(e) {}
+                }
+            } finally {
+                queueRunning = false;
+            }
+        }
+        
+        function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+        function openFireDelayModal() { document.getElementById('fireDelayInput').value = fireDelay; document.getElementById('fireDelayModal').style.display = 'flex'; }
+        function closeFireDelayModal() { document.getElementById('fireDelayModal').style.display = 'none'; }
+        function saveFireDelay() { const val = parseInt(document.getElementById('fireDelayInput').value); if (isNaN(val) || val < 0 || val > 10000) { alert('0 se 10000 ke beech value dalo!'); return; } fireDelay = val; localStorage.setItem('matrixFireDelay', fireDelay); updateFireDelayBtn(); closeFireDelayModal(); }
+        
+        function updateFireDelayBtn() { 
+            const btn = document.getElementById('fireDelayBtn'); 
+            if (btn) { btn.innerText = (fireDelay === 0) ? '⏱ FIRE DELAY: OFF' : '⏱ FIRE DELAY: ' + fireDelay + 'ms'; } 
+        }
+
+        function openMultiTapModal() { document.getElementById('multiTapInput').value = multiTap; document.getElementById('multiTapGapInput').value = multiTapGap; updateMultiTapLabel(); document.getElementById('multiTapModal').style.display = 'flex'; }
+        function closeMultiTapModal() { document.getElementById('multiTapModal').style.display = 'none'; }
+        function updateMultiTapLabel() { const val = parseInt(document.getElementById('multiTapInput').value) || 1; const lbl = document.getElementById('multiTapStatusLabel'); if (!lbl) return; lbl.innerText = val <= 1 ? '1 = Multi-Tap OFF' : val + ' taps = Code ' + val + ' baar fire hoga'; lbl.style.color = val <= 1 ? '#ff4444' : '#00ff66'; }
+        function saveMultiTap() { const taps = parseInt(document.getElementById('multiTapInput').value); const gap  = parseInt(document.getElementById('multiTapGapInput').value); if (isNaN(taps) || taps < 1 || taps > 20) { alert('1 se 20 ke beech taps dalo!'); return; } if (isNaN(gap)  || gap  < 50 || gap > 5000) { alert('Gap 50ms se 5000ms ke beech hona chahiye!'); return; } multiTap = taps; multiTapGap = gap; localStorage.setItem('matrixMultiTap', multiTap); localStorage.setItem('matrixMultiTapGap', multiTapGap); updateMultiTapBtn(); closeMultiTapModal(); }
+        function resetMultiTap() { multiTap = 1; multiTapGap = 100; localStorage.setItem('matrixMultiTap', 1); localStorage.setItem('matrixMultiTapGap', 100); document.getElementById('multiTapInput').value = 1; document.getElementById('multiTapGapInput').value = 100; updateMultiTapLabel(); updateMultiTapBtn(); closeMultiTapModal(); }
+        
+        function updateMultiTapBtn() { 
+            const btn = document.getElementById('multiTapBtn'); 
+            if (btn) { btn.innerText = (multiTap <= 1) ? '🔄 MULTI-TAP: OFF' : '🔄 MULTI-TAP: ' + multiTap + 'x (' + multiTapGap + 'ms)'; } 
+        }
+
+        // ════════════════════════════════════════════════════════════════════════
+        //  ⚡ ZERO-LAG ENGINE — SSE Push + Auto-Reconnect + HTTP Fallback
+        //  Status shows LIVE immediately on open. Never shows "connecting" again.
+        //  Heartbeat from server keeps connection alive 24/7.
+        // ════════════════════════════════════════════════════════════════════════
+        let _sseConn      = null;   // current EventSource object
+        let _sseOpen      = false;  // true only after onopen fires
+        let _sseRetries   = 0;
+        let _lastChanSync = 0;
+
+        // ── Show LIVE immediately when dashboard opens ────────────────────────
+        (function() {
+            const el = document.getElementById('tgStatus');
+            if (el) { el.innerText = 'LIVE ✓ (connecting...)'; el.className = 'tg-live'; }
+        })();
+
+        function _setStatus(text, live) {
+            const el = document.getElementById('tgStatus');
+            if (el) { el.innerText = text; el.className = live ? 'tg-live' : 'tg-offline'; }
+        }
+
+        function startSSEConnection() {
+            if (_sseConn) { try { _sseConn.close(); } catch(e) {} }
+            _sseOpen = false;
+            _sseConn = new EventSource('/stream');
+
+            _sseConn.onopen = function() {
+                _sseOpen   = true;
+                _sseRetries = 0;
+                _setStatus('⚡ LIVE (SSE Instant)', true);
+            };
+
+            _sseConn.onmessage = function(evt) {
+                _lastPingTime = Date.now();  // any message = connection alive
+                // Heartbeat SSE comment lines come as empty data — ignore
+                if (!evt.data || evt.data.trim() === '') return;
+                try {
+                    const data = JSON.parse(evt.data);
+                    if (data.ping) {
+                        // ping = connection confirmed, mark open if onopen missed
+                        _sseOpen = true;
+                        _setStatus('⚡ LIVE (SSE Instant)', true);
+                        return;
+                    }
+                    if (data.code) {
+                        fireCodeFromData(data);
+                        const qEl = document.getElementById('queueCount');
+                        if (qEl) qEl.innerText = 'Seen: live';
+                    }
+                } catch(e) {}
+            };
+
+            _sseConn.onerror = function() {
+                _sseOpen = false;
+                try { _sseConn.close(); } catch(e) {}
+                _sseConn = null;
+                // Back-off: 500ms → 1s → 2s → 4s → max 8s, then resets
+                const delay = Math.min(500 * Math.pow(2, _sseRetries), 8000);
+                _sseRetries = Math.min(_sseRetries + 1, 4);
+                _setStatus('⚡ LIVE (reconnecting...)', true);  // stay green — we will reconnect
+                setTimeout(startSSEConnection, delay);
+            };
+        }
+
+        // ── Channel sync: send active channels to server every 5s ────────────
+        async function syncChannelsLoop() {
+            try {
+                const activeChans = Object.keys(channelRoutes);
+
+                // ⚡ CRITICAL — push channels to server so Pyrogram WebSocket joins them
+                // Without this, tracked_channels is empty and catch() never fires
+                await fetch('/bg/channels', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ channels: activeChans })
+                });
+
+                // Also sync status (TG connected button etc)
+                const chansParam = encodeURIComponent(JSON.stringify(activeChans));
+                const res  = await fetch('/code?channels=' + chansParam);
+                if (res.status === 403) { window.location.reload(); return; }
+                const data = await res.json();
+                const btnC = document.getElementById('vaultConnectBtn');
+                const btnD = document.getElementById('vaultDisconnectBtn');
+                if (btnC && btnD) {
+                    if (data.tg_connected) { btnC.style.display='none'; btnD.style.display='block'; }
+                    else { btnC.style.display='block'; btnD.style.display='none'; }
+                }
+                const qEl = document.getElementById('queueCount');
+                if (qEl && !_sseOpen) qEl.innerText = 'Seen: ' + (data.seen_count || 0);
+            } catch(e) {}
+            setTimeout(syncChannelsLoop, 5000);
+        }
+
+        // ── HTTP fallback poll: ONLY fires if SSE is disconnected ────────────
+        let _fbRunning = false;
+        async function fallbackPollLoop() {
+            if (_sseOpen) { setTimeout(fallbackPollLoop, 500); return; }
+            if (_fbRunning) { setTimeout(fallbackPollLoop, 200); return; }
+            _fbRunning = true;
+            if (autoEnabled) {
+                try {
+                    const res  = await fetch('/code/next');
+                    if (res.status === 403) { window.location.reload(); return; }
+                    const data = await res.json();
+                    if (data.code) fireCodeFromData(data);
+                    if (!_sseOpen) _setStatus('⚡ LIVE (HTTP fallback)', true);
+                } catch(e) {
+                    if (!_sseOpen) _setStatus('offline — retrying...', false);
+                }
+            }
+            _fbRunning = false;
+            setTimeout(fallbackPollLoop, 300);
+        }
+
+        // ── Watchdog: if SSE open but ping missed >30s, force reconnect ──────
+        let _lastPingTime = Date.now();
+        function sseWatchdog() {
+            if (_sseOpen && (Date.now() - _lastPingTime > 12000)) {
+                console.warn('[Matrix] SSE watchdog: no heartbeat in 30s, reconnecting');
+                _sseOpen = false;
+                startSSEConnection();
+            }
+            setTimeout(sseWatchdog, 10000);
+        }
+
+        // ── Update _lastPingTime on any SSE message ───────────────────────────
+        const _origOnMessage = EventSource.prototype;  // patched below per-instance
+
+        // ── Boot sequence — runs immediately ─────────────────────────────────
+        setTimeout(function() {
+            startSSEConnection();    // ⚡ primary instant push
+            fallbackPollLoop();      // 🔄 backup if SSE ever fails
+            syncChannelsLoop();      // 📡 channel sync every 5s
+            sseWatchdog();           // 👁 reconnect guard
+        }, 30);  // 30ms — faster than before
+
+        function dismissCaptchaAlert(){ document.getElementById('captchaAlert').style.display='none'; }
+
+        window.addEventListener('message', function(e) {
+            if (!e.data) return;
+            if (e.data.cmd === 'CAPTCHA_MANUAL') {
+                const id = e.data.idIndex !== null ? 'ID '+(e.data.idIndex+1) : 'unknown'; const alert = document.getElementById('captchaAlert');
+                document.getElementById('captchaAlertText').innerText = currentTab.toUpperCase()+' '+id+' — Scroll down to that account and solve the puzzle captcha'; alert.style.display = 'block'; setTimeout(() => { alert.style.display='none'; }, 30000);
+            }
+            if (e.data.cmd === 'CAPTCHA_SOLVED') { document.getElementById('captchaAlert').style.display='none'; }
+        });
+
+        const _BG_JUNK = new Set(["utf","html","head","body","div","span","script","style","cdata","https","http","www","com","net","org","info","telegram","channel","message","rsshub","rss","xml","json","item","title","link","guid","class","href","src","type","data","text","true","false","null","image","photo","video","audio","file","user","chat","group","reply","forward","tgme","widget","preview","join","view","open","click"]);
+
+        // 🚀 INDEPENDENT LOG OUTPUT INJECTOR FOR TRACKING PERFORMANCES
+        function _bgLog(msg) {
+            const el = document.getElementById('bgClaimerLog'); if (!el) return;
+            const line = document.createElement('div'); const now = new Date().toLocaleTimeString();
+            line.style.cssText = 'font-size:11px; color:#aaa; font-family:monospace; padding:1px 0; border-bottom:1px solid #111;';
+            line.innerText = '[' + now + '] ' + msg; el.insertBefore(line, el.firstChild);
+        }
+
+        function startMatrixEngine() { 
+            initData(); renderTabs(); bootAllTabs(); updateFireDelayBtn(); updateMultiTapBtn(); 
+            if(tgMonitorRunning) syncTelegramMonitorEngineWithServer();
+            setTimeout(runStandaloneMonitorAsyncScraperLoop, 200);
+            // AUTO button visual state
+            const _autoBtn = document.getElementById('autoBtn');
+            if (_autoBtn) {
+                if (autoEnabled) { _autoBtn.innerText = 'AUTO: ON'; _autoBtn.style.color = '#00c853'; _autoBtn.style.borderColor = '#00c853'; }
+                else { _autoBtn.innerText = 'AUTO: OFF'; _autoBtn.style.color = '#aaa'; _autoBtn.style.borderColor = '#444'; }
+            }
+            // Panel hide/show state
+            if (localStorage.getItem('matrixPanelHidden') === 'true') {
+                const panel = document.getElementById('controlPanel'); const btn = document.querySelector('.hide-panel-btn');
+                if (panel) { panel.style.display = 'none'; if (btn) btn.innerText = 'SHOW PANEL ▽'; }
+            }
+            // AddMode restore
+            setAddMode(addMode);
+            // Blackout restore
+            if (localStorage.getItem('matrixBlackoutOn') === '1') {
+                const b = document.getElementById('fullScreenBlackout'); if (b) b.style.display = 'flex';
+            }
+        }
+        if (document.readyState === "complete" || document.readyState === "interactive") { startMatrixEngine(); }
+        else { document.addEventListener("DOMContentLoaded", startMatrixEngine); }
+    </script>
+</body>
+</html>
